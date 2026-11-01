@@ -1,0 +1,39 @@
+﻿Ciudad,Variable,Tipo,Unidad,Descripción,Valores o rango,% faltantes (original),% faltantes (limpio)
+Cartagena,codigo_tramite,Texto,Sin unidad,Código del trámite; No Aplica cuando no se asignó. Se retira porque revela el resultado.,No se conserva,0.0,Retirada
+Cartagena,fecha_ingreso,Fecha,Día,Fecha en que ingresó la solicitud.,2024-01-02 a 2026-03-31,0.0,0.0
+Cartagena,estado,Categórica,Sin unidad,Estado del trámite en la fuente.,Aprobado | Aprobado Parcial | Rechazado | Solicitud Rechazada,0.0,0.0
+Cartagena,calidad_solicitante,Categórica,Sin unidad,Si la persona actúa a nombre propio o en representación de otra.,A NOMBRE PROPIO | EN REPRESENTACION DE OTRA PERSONA,0.0,0.0
+Cartagena,barrio,Categórica,Sin unidad,Barrio o corregimiento de residencia declarado.,117 categorías,0.0,0.0
+Cartagena,alcaldia_local,Categórica,Sin unidad,Alcaldía local; es constante y se retira.,No se conserva,0.0,Retirada
+Cartagena,tipo_documento,Categórica,Sin unidad,Tipo de documento; nunca incluye el número.,Cédula de ciudadanía | Cédula de extranjería | Registro civil | Tarjeta de identidad,0.0,0.0
+Cartagena,tiempo_residencia_anios,Numérica,Años,Tiempo de residencia declarado.,0 a 64,0.0,0.0
+Cartagena,juramento,Booleana,Sin unidad,Si se marcó el juramento sobre la información.,Verdadero / Falso,0.0,0.0
+Cartagena,codigo_faltante,Booleana,Sin unidad,Derivada: el código original era No Aplica. Excluida de los modelos por fuga.,Verdadero / Falso,Derivada,0.0
+Cartagena,rechazo,Binaria,Sin unidad,VARIABLE OBJETIVO: 1 si el trámite fue rechazado.,0 a 1,Derivada,0.0
+Cartagena,atipico_tiempo,Booleana,Sin unidad,Derivada: tiempo de residencia fuera del rango IQR.,Verdadero / Falso,Derivada,0.0
+Cartagena,anio,Entera,Año,Derivada de la fecha.,2024 a 2026,Derivada,0.0
+Cartagena,mes,Entera,Mes,Derivada de la fecha.,1 a 12,Derivada,0.0
+Cartagena,dia_semana,Entera,Día (0 = lunes),Derivada de la fecha.,0 a 6,Derivada,0.0
+Cartagena,semestre,Categórica,Semestre,Derivada de la fecha.,2024-S1 | 2024-S2 | 2025-S1 | 2025-S2 | 2026-S1,Derivada,0.0
+Cartagena,es_menor,Binaria,Sin unidad,Derivada: tarjeta de identidad o registro civil.,0 a 1,Derivada,0.0
+Cartagena,es_extranjero,Binaria,Sin unidad,Derivada: cédula de extranjería.,0 a 1,Derivada,0.0
+Cartagena,es_representacion,Binaria,Sin unidad,Derivada: actúa en representación de otra persona.,0 a 1,Derivada,0.0
+Villavicencio,id,Entera,Sin unidad,Consecutivo de la fuente. Se retira.,No se conserva,0.0,Retirada
+Villavicencio,fecha_solicitud,Fecha y hora,Segundo,Momento de la solicitud en línea.,2025-02-26 a 2026-04-14,0.0,0.0
+Villavicencio,tipo_residente,Categórica,Sin unidad,Residente colombiano o persona privada de la libertad.,Personas privadas de la libertad | Residente colombiano,0.0,0.0
+Villavicencio,comuna,Categórica,Sin unidad,Comuna o corregimiento; normalizada a partir de texto libre.,18 categorías,0.0,0.0
+Villavicencio,barrio,Texto,Sin unidad,Texto libre. Se retira por riesgo de reidentificación.,No se conserva,0.03,Retirada
+Villavicencio,grupo_etario,Categórica,Sin unidad,"Adulto, Niños o No aplica (PPL).",Adulto | Niños | No aplica (PPL),0.61,0.0
+Villavicencio,finalidad,Categórica,Sin unidad,Uso declarado del certificado.,13 categorías,0.0,0.0
+Villavicencio,estado_del_tramite,Entera,Sin unidad,Código numérico del estado; redundante y se retira.,No se conserva,0.11,Retirada
+Villavicencio,estado,Categórica,Sin unidad,Estado del trámite en la fuente.,Aprobado | Cumple los requisitos | Preaprobado | Sin estado,0.11,0.0
+Villavicencio,anio,Entera,Año,Derivada de la fecha.,2025 a 2026,Derivada,0.0
+Villavicencio,mes,Entera,Mes,Derivada de la fecha.,1 a 12,Derivada,0.0
+Villavicencio,hora,Entera,Hora,Derivada de la fecha.,0 a 23,Derivada,0.0
+Villavicencio,dia_semana,Entera,Día (0 = lunes),Derivada de la fecha.,0 a 6,Derivada,0.0
+Villavicencio,fuera_horario,Binaria,Sin unidad,"Derivada: antes de las 7, desde las 18 o fin de semana.",0 a 1,Derivada,0.0
+Villavicencio,semestre,Categórica,Semestre,Derivada de la fecha.,2025-S1 | 2025-S2 | 2026-S1,Derivada,0.0
+Villavicencio,es_aprobado,Binaria,Sin unidad,Derivada: estado Aprobado.,0 a 1,Derivada,0.0
+Villavicencio,es_nino,Binaria,Sin unidad,Derivada: grupo Niños.,0 a 1,Derivada,0.0
+Villavicencio,es_ppl,Binaria,Sin unidad,Derivada: persona privada de la libertad.,0 a 1,Derivada,0.0
+Villavicencio,es_laboral,Binaria,Sin unidad,Derivada: finalidad laboral.,0 a 1,Derivada,0.0

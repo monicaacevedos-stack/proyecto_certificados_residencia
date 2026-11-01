@@ -1,0 +1,11 @@
+﻿Fecha,Decisión,Alternativas consideradas,Por qué se eligió,Evidencia
+2026-10-31,Usar datos abiertos de Cartagena y Villavicencio,Pedir el Excel de Barbosa; usar datos sintéticos,La página de datos abiertos de Barbosa no publica este trámite y la guía exige datos reales,Sección 2; tabla_ficha_dataset
+2026-10-31,Enmascarar antes de guardar cualquier copia,Publicar la copia cruda; borrar los registros afectados,Se detectaron 5 identificadores aparentes y 63 direcciones; el repositorio será público,Manifiesto; tabla_fallas_calidad
+2026-10-31,Definir rechazo como variable objetivo en Cartagena,Pronosticar volumen; enfoque solo descriptivo,Es la única salida del trámite con clases definidas,fig01_objetivo
+2026-10-31,Excluir codigo_tramite de los modelos,Usarlo como variable,El valor No Aplica coincide casi siempre con Solicitud Rechazada (1.417 casos): sería fuga,tabla_fallas_calidad
+2026-10-31,Buscar duplicados antes de quitar el código,Buscarlos después de quitarlo,"Después de quitarlo, trámites distintos parecían iguales y se inflaba el conteo; con el código son 97",tabla_etl_conteos
+2026-10-31,Conservar y marcar los atípicos,"Recortar, mediana de parecidos, KNN","Solo son 5 casos, plausibles, y las alternativas casi no cambian la distribución",tabla_alternativas_atipicos
+2026-10-31,Dejar comunas no interpretables como Sin clasificar,Asumir que un número suelto es una comuna,Un número suelto podría ser otra cosa; no se inventa información,tabla_kpi_calidad
+2026-10-31,Retirar barrio de Villavicencio de la base limpia,Normalizarlo con coincidencia aproximada,Texto libre con riesgo de reidentificación y poco valor para el objetivo,tabla_kpi_calidad
+2026-10-31,Usar TimeSeriesSplit con 10 cortes,Validación cruzada aleatoria 5×2; 5 cortes temporales,La tasa cambia en el tiempo y Wilcoxon con 5 cortes no alcanza significancia,tabla_robustez_cartagena; tabla_protocolo
+2026-10-31,No interpretar fuera_horario como demanda real,Analizarlo como conducta ciudadana,"Solo existe de 2025-09 a 2025-12, lo que apunta a un cambio de registro",tabla_horario_villavicencio

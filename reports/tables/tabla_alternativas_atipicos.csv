@@ -1,0 +1,5 @@
+﻿Alternativa,Valores alterados,Media,Desv. estándar,P99,Máximo,KS frente al original,Spearman con rechazo
+A. Conservar y marcar,0,17.131,13.741,53.0,64.0,0.0,0.0216
+B. Recortar al límite IQR,5,17.131,13.74,53.0,62.5,0.00034,0.0216
+C. Reemplazar por mediana de registros parecidos,5,17.117,13.716,52.0,62.0,0.00034,0.0218
+D. Reemplazar por KNN (k = 5),5,17.117,13.716,52.0,62.0,0.00034,0.0217

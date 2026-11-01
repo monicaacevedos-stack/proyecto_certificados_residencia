@@ -1,0 +1,11 @@
+﻿Campo,Cartagena,Villavicencio
+Fuente,Alcaldía Mayor de Cartagena de Indias (Alcaldía Local 3),Alcaldía de Villavicencio
+Conjunto de datos,Certificados de Residencia,Certificados de residencia expedidos en el Municipio de Villavicencio
+Enlace,https://www.datos.gov.co/d/2muq-8ebv,https://www.datos.gov.co/d/38t2-j7vd
+Licencia,Creative Commons Attribution | Share Alike 4.0 International,Creative Commons Attribution | Share Alike 4.0 International
+Fecha de descarga,2026-10-31,2026-10-31
+Última actualización de la fuente,2026-04-08,2026-04-15
+Periodo cubierto,2024-01-02 a 2026-03-31,2025-02-26 a 2026-04-14
+Registros (original / limpio),15007 / 14902,11622 / 11615
+Variables (original / limpio),9 / 17,9 / 16
+Variable objetivo,rechazo (1 = Rechazado o Solicitud Rechazada; 0 = Aprobado o Aprobado Parcial),No tiene: la fuente no registra rechazos. Se usa para réplica de demanda y calidad.

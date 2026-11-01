@@ -1,0 +1,12 @@
+﻿Ciudad,Variable,Chi-cuadrado,gl,p,V de Cramér
+Cartagena,anio,290.9,2,6.75e-64,0.14
+Cartagena,barrio (20 + otros),231.5,20,6.03e-38,0.125
+Cartagena,tipo_documento,43.1,3,2.29e-09,0.054
+Cartagena,dia_semana,12.5,6,0.0515,0.029
+Cartagena,es_representacion,2.1,1,0.146,0.012
+Cartagena,atipico_tiempo,0.0,1,0.965,0.0
+Villavicencio,mes,117.6,14,1.84e-18,0.101
+Villavicencio,comuna,72.5,17,8.05e-09,0.079
+Villavicencio,finalidad,52.8,12,4.49e-07,0.067
+Villavicencio,grupo_etario,20.8,2,3.04e-05,0.042
+Villavicencio,fuera_horario,18.6,1,1.59e-05,0.04

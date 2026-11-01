@@ -1,0 +1,4 @@
+﻿Hallazgo,Decisión que sugiere
+"El rechazo es inestable: 6,8 % en 2025 y 18,6 % en 2026, en todos los barrios principales y con cambio en el tipo de estado.","Confirmar con la entidad si cambiaron los criterios o el registro antes de usar el rechazo como indicador, y validar los modelos en orden temporal."
+"Los picos mensuales llegan a 2,6 veces la mediana en Cartagena y a 2,6 en Villavicencio, y no coinciden entre ciudades.",Estimar el calendario de carga de cada municipio y programar personal y procesos automáticos en sus periodos pico.
+"El texto libre concentra las peores fallas: 2.322 escrituras de barrio, 87 de comuna y 68 valores con identificador o dirección en Villavicencio.","En Barbosa, capturar barrio y comuna con listas cerradas y revisar datos personales con un script antes de publicar cualquier archivo."

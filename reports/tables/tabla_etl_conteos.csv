@@ -1,0 +1,15 @@
+﻿Ciudad,Paso,Registros,Variables,Celdas faltantes,Filas duplicadas,Tratamiento
+Cartagena,0. Copia enmascarada,15007,9,0,97,Sin cambios sobre los registros
+Cartagena,1. Tipos de dato,15007,9,0,97,"Fecha, número y booleano"
+Cartagena,2. Duplicados exactos,14910,9,0,0,"Se comparan todas las variables, incluido el código; se conserva la primera aparición"
+Cartagena,3. Variables sin información analítica,14910,8,0,0,Se quitan la constante alcaldia_local y codigo_tramite; este último revela el resultado
+Cartagena,4. Normalización de texto,14910,8,0,0,"Mayúsculas, acentos, espacios y una errata"
+Cartagena,5. Estados finales y variable objetivo,14902,9,0,0,"Se excluyen Retirado y Presentado, sin decisión final"
+Cartagena,6. Atípicos y variables derivadas,14902,17,0,0,Los atípicos se marcan y se conservan
+Villavicencio,0. Copia enmascarada,11622,9,100,7,Identificadores y direcciones ya enmascarados
+Villavicencio,1. Tipos de dato,11622,9,100,7,Fecha y hora
+Villavicencio,2. Variable redundante,11622,8,87,7,estado_del_tramite es el código de estado
+Villavicencio,3. Duplicados sin contar el id,11615,7,87,0,"Mismo instante y mismos atributos; se quita id, que es un consecutivo"
+Villavicencio,4. Normalización de categorías,11615,7,87,0,Comuna y finalidad; lo no interpretable queda como Sin clasificar
+Villavicencio,5. Faltantes y texto libre,11615,6,0,0,Categorías explícitas para faltantes; barrio se retira por riesgo de reidentificación
+Villavicencio,6. Variables derivadas,11615,16,0,0,"Calendario, horario e indicadores"

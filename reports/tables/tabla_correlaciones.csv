@@ -1,0 +1,19 @@
+﻿Ciudad,Variable,Pearson,Spearman,Respecto a
+Cartagena,tiempo_residencia_anios,0.027,0.022,rechazo
+Cartagena,mes,-0.097,-0.084,rechazo
+Cartagena,dia_semana,0.008,0.007,rechazo
+Cartagena,dias_desde_inicio,0.044,0.053,rechazo
+Cartagena,volumen_dia,0.051,0.054,rechazo
+Cartagena,frecuencia_barrio,0.046,0.019,rechazo
+Cartagena,es_menor,-0.045,-0.045,rechazo
+Cartagena,es_extranjero,0.017,0.017,rechazo
+Cartagena,es_representacion,0.012,0.012,rechazo
+Villavicencio,hora,-0.019,-0.015,es_aprobado
+Villavicencio,mes,0.049,0.051,es_aprobado
+Villavicencio,dia_semana,-0.012,-0.009,es_aprobado
+Villavicencio,dias_desde_inicio,-0.019,-0.016,es_aprobado
+Villavicencio,volumen_dia,0.03,0.027,es_aprobado
+Villavicencio,es_nino,0.038,0.038,es_aprobado
+Villavicencio,es_ppl,-0.018,-0.018,es_aprobado
+Villavicencio,es_laboral,-0.008,-0.008,es_aprobado
+Villavicencio,fuera_horario,-0.04,-0.04,es_aprobado

@@ -1,0 +1,13 @@
+﻿Ciudad,Falla,Característica ISO/IEC 25012,Casos,Base,% de la base
+Cartagena,"Código de trámite ausente, escrito como No Aplica",Completitud,1417,15007,9.44
+Cartagena,Filas idénticas en todas las variables,Consistencia,97,15007,0.65
+Cartagena,Tiempo de residencia igual a cero,Exactitud,611,15007,4.07
+Cartagena,Tiempo de residencia con decimales,Consistencia,802,15007,5.34
+Cartagena,Tiempo de residencia atípico según IQR,Exactitud,5,14902,0.03
+Villavicencio,Identificador personal aparente en texto libre,Confidencialidad,5,11622,0.04
+Villavicencio,Dirección escrita en campos de barrio o comuna,Confidencialidad,63,11622,0.54
+Villavicencio,Comuna escrita fuera del formato estándar,Conformidad,395,11622,3.4
+Villavicencio,Comuna sin clasificar tras normalizar,Exactitud,118,11622,1.02
+Villavicencio,Solicitudes duplicadas al quitar el consecutivo,Consistencia,7,11622,0.06
+Villavicencio,Estado del trámite vacío,Completitud,13,11622,0.11
+Villavicencio,"Grupo etario vacío (todas PPL, faltante estructural)",Completitud,71,11622,0.61

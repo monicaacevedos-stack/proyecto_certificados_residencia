@@ -1,0 +1,6 @@
+﻿Indicador,Fórmula,Referencia
+Completitud,Celdas no vacías / celdas totales × 100,Valor en la copia original
+Unicidad,Registros sin duplicado / registros × 100,Valor en la copia original
+Conformidad de comuna,Valores con formato estándar / registros × 100,Valor en la copia original
+Datos personales expuestos,Valores detectados con identificador o dirección,Meta: cero
+Tiempo de ejecución,Segundos del ETL por lote,Medición manual cronometrada; aún no existe y debe obtenerse para comparar

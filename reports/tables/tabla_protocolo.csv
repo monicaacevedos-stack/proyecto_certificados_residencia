@@ -1,0 +1,9 @@
+﻿Elemento,Definición
+Enfoque y variable objetivo,"Predictivo, clasificación binaria de rechazo en Cartagena. Villavicencio no entra al modelo porque no registra rechazos."
+Métrica principal,"F1-macro: da igual peso a aprobados y rechazados, necesario por el desbalance de clases."
+Métricas secundarias,"AUC-PR, MCC y sensibilidad de la clase rechazo."
+Partición y validación,Último 20 % de los registros por fecha como prueba final; TimeSeriesSplit con 10 cortes sobre el 80 % anterior. No se mezcla el orden porque la tasa cambia en el tiempo.
+Línea base,"Predecir siempre la clase más frecuente (aprobado), evaluada en los mismos cortes. Referencia adicional: predecir según la tasa de rechazo del periodo anterior."
+Criterio de éxito,"Superar la línea base en F1-macro por al menos 0,05, con intervalos de confianza del 95 % que no se crucen en los cortes temporales, y confirmarlo en la prueba final."
+Prueba estadística,"Friedman con Nemenyi para tres o más modelos; Wilcoxon con corrección de Holm para comparaciones por pares, sobre los 10 cortes (con 5 cortes Wilcoxon no puede llegar a p < 0,05)."
+Control de fuga de información,"Se excluyen codigo_tramite, codigo_faltante, estado, volumen_dia y frecuencia_barrio calculada sobre toda la base. Imputación, escalado y codificación se ajustan dentro de un Pipeline, solo con los datos de entrenamiento de cada corte."
