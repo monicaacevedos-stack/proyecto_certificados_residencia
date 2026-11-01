@@ -1,0 +1,29 @@
+{
+  "dataset_id": "2muq-8ebv",
+  "nombre": "Certificados de Residencia",
+  "entidad": "Alcaldía Mayor de Cartagena de Indias (Alcaldía Local 3)",
+  "enlace": "https://www.datos.gov.co/d/2muq-8ebv",
+  "licencia": "Creative Commons Attribution | Share Alike 4.0 International",
+  "licencia_url": "http://creativecommons.org/licenses/by-sa/4.0/legalcode",
+  "descripcion": "“Este conjunto de datos presenta los registros de certificados de residencia expedidos por la Alcaldía Local Industrial y de la Bahía N.º 3 del Distrito de Cartagena, con el propósito de garantizar la transparencia, el acceso a la información pública y su reutilización por parte de la ciudadanía.”",
+  "fecha_descarga": "2026-10-31",
+  "actualizacion_fuente": "2026-04-08",
+  "sha256_original_sin_enmascarar": "765e7a27b677686ab01af5b3a8c529c25228f101a4e552ef33a51b8460b078d4",
+  "valores_enmascarados": {
+    "barrio_corregimiento": {
+      "identificadores": 0,
+      "direcciones": 0
+    }
+  },
+  "descripciones_columnas": {
+    "c_digo_de_tr_mite": "Identificador único asignado a la solicitud o proceso para su seguimiento dentro del sistema.",
+    "fecha_ingreso": "Día en que el trámite fue registrado oficialmente en la entidad.",
+    "estado": "Situación actual del trámite (aprobado, aprobado parcial, rechazado, retirado, solicitud rechazada, etc.).",
+    "calidad_en_la_que_act_a": "Rol o condición en la que la persona realiza el trámite (por ejemplo: a nombre propio, o en representación de otra persona.).",
+    "barrio_corregimiento": "Lugar específico de residencia o ubicación dentro del municipio.",
+    "alcald_a_local": "Autoridad administrativa local correspondiente a la zona donde se realiza el trámite.",
+    "tipo_de_documento_de_identidad": "Clase de documento presentado para la identificación (cédula de ciudadanía, tarjeta de identidad, cedula de extranjería, pasaporte, etc.).",
+    "tiempo_de_residencia_a_o": "Periodo durante el cual la persona ha vivido en el lugar indicado, especificada por años.meses.",
+    "juro_que_la_informaci_n": "Esto significa que la persona afirma que los datos son verdaderos y asume las consecuencias legales si no lo son."
+  }
+}

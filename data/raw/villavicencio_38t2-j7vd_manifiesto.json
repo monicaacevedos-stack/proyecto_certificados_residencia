@@ -1,0 +1,33 @@
+{
+  "dataset_id": "38t2-j7vd",
+  "nombre": "Certificados de residencia expedidos en el Municipio de Villavicencio",
+  "entidad": "Alcaldía de Villavicencio",
+  "enlace": "https://www.datos.gov.co/d/38t2-j7vd",
+  "licencia": "Creative Commons Attribution | Share Alike 4.0 International",
+  "licencia_url": "http://creativecommons.org/licenses/by-sa/4.0/legalcode",
+  "descripcion": "Certificados de residencia expedidos por la Alcaldía Municipal de Villavicencio, a través del sistema de trámites en línea.",
+  "fecha_descarga": "2026-10-31",
+  "actualizacion_fuente": "2026-04-15",
+  "sha256_original_sin_enmascarar": "12b038025e7e2dfef65dbe0facfbbe1a7bd0562076feadb178fc3e7a1269fcda",
+  "valores_enmascarados": {
+    "barrio": {
+      "identificadores": 5,
+      "direcciones": 57
+    },
+    "comuna_o_corregimiento": {
+      "identificadores": 0,
+      "direcciones": 6
+    }
+  },
+  "descripciones_columnas": {
+    "id": "Número de Ciudadanos con solicitud de certificado",
+    "fecha_y_hora_de_la_solicitud": "Cuando se solicito el tramite",
+    "residente_colombiano": "Residente colombiano",
+    "comuna_o_corregimiento": "Comuna o corregimiento donde reside",
+    "barrio": "Barrio donde reside",
+    "grupo_etario": "Grupo etario en el que se encuentra",
+    "finalidad_del_certificado": "Para que trámite solicita el certificado",
+    "estado_del_tramite": "Estado del trámite en númeración",
+    "tramite": "Estado del trámite"
+  }
+}
