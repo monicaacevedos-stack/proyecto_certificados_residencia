@@ -1,0 +1,761 @@
+{
+  "interpretaciones": {
+    "tabla_ficha_dataset": "Las dos fuentes son datos reales del mismo trámite, publicados con licencia Creative Commons Attribution | Share Alike 4.0 International. Cartagena aporta la variable objetivo porque registra rechazos; Villavicencio no los registra y por eso sirve para replicar el análisis de demanda y de calidad. Ninguna corresponde a Barbosa, así que los resultados se presentan como evidencia de trámites comparables.",
+    "tabla_etl_conteos": "El ETL conserva 14.902 de 15.007 registros en Cartagena y 11.615 de 11.622 en Villavicencio, de modo que la limpieza no cambia el tamaño de las bases de manera sensible. Cartagena pierde 97 duplicados exactos y 8 trámites sin decisión final. En Villavicencio las celdas faltantes pasan a cero porque se volvieron categorías explícitas y porque se retiró el campo barrio; no hubo imputación.",
+    "tabla_fallas_calidad": "La falla más frecuente en Cartagena es el código ausente (1.417 casos), que además coincide casi por completo con el estado Solicitud Rechazada. En Villavicencio pesan más la comuna fuera de formato (395 casos) y, por su gravedad, los 5 identificadores aparentes y 63 direcciones escritas en texto libre. Medir estas fallas responde al objetivo 1 y define las reglas del script del objetivo 2.",
+    "tabla_kpi_calidad": "Las reglas reducen las categorías de comuna en Villavicencio de 87 a 18 y dejan en cero los duplicados y los datos personales detectados. La ausencia de variantes en los 117 barrios de Cartagena sugiere que allí el campo se captura con una lista, mientras que en Villavicencio el barrio tiene 2.322 valores distintos. Estos indicadores miden el estado del dato, no el tiempo ahorrado frente a un proceso manual.",
+    "tabla_alternativas_atipicos": "Solo 5 registros superan el límite IQR de 62,5 años, por lo que los cuatro tratamientos casi no cambian la distribución: el estadístico KS máximo es 0,00034. Son residencias largas pero posibles, así que se conservan y se marcan. Alterarlas no aporta y quitaría información real.",
+    "tabla_sensibilidad_duplicados": "Quitar los 97 duplicados baja la tasa de rechazo en todos los años, porque todos son solicitudes rechazadas sin código: en 2026 pasa de 19,49 % a 18,56 %. El patrón entre años no cambia. Como no hay identificador, no se puede distinguir una repetición de un reenvío legítimo, y por eso esta decisión queda registrada como supuesto.",
+    "fig01_objetivo": "La clase rechazo representa 10,6 % de las solicitudes, con 8,4 aprobadas por cada rechazada; el desbalance justifica no usar exactitud como métrica. La tasa es inestable: 10,1 % en 2024, 6,8 % en 2025 y 18,6 % en 2026, con máximo de 29,8 % en 2026-03. También cambia el tipo de rechazo: el estado con código pesa más en 2025-S2, lo que sugiere un cambio de registro o de criterio que habría que confirmar con la entidad.",
+    "fig02_variables_principales": "El tiempo de residencia tiene asimetría positiva (0,66) y mediana de 15,0 años. Aprobados y rechazados tienen distribuciones parecidas (medianas de 15,0 y 17,0 años), de modo que esta variable por sí sola no separa bien el resultado. En Villavicencio, 59,7 % de las solicitudes tiene finalidad laboral, lo que muestra para qué se usa principalmente el documento.",
+    "fig03_correlaciones_cartagena": "Ninguna variable numérica tiene una relación monotónica fuerte con el rechazo: la mayor es mes con Spearman de -0,084. Con el resultado, Pearson y Spearman coinciden en general. Entre predictoras, la asociación más alta según Spearman es mes ~ volumen_dia (-0,32), todavía moderada; tiempo de residencia y frecuencia del barrio difieren más entre coeficientes, lo que sugiere el efecto de los barrios con muchas solicitudes.",
+    "fig04_correlaciones_villavicencio": "El estado Aprobado casi no se relaciona con hora, día o finalidad. La correlación más alta entre variables es mes ~ fuera_horario (0,32), pero refleja que las solicitudes fuera de horario solo existen entre 2025-09 y 2025-12. Es un rasgo de la captura de los datos y no del comportamiento de la ciudadanía.",
+    "tabla_correlaciones": "Con ambos coeficientes, las relaciones con el resultado son débiles en las dos ciudades, siempre por debajo de 0,09 en valor absoluto. Esto anticipa que un modelo solo con estas variables podría superar por poco a la línea base. Por eso el protocolo fija desde ahora qué mejora se considerará relevante.",
+    "tabla_vif": "El VIF máximo es 1,20 en Cartagena y 1,30 en Villavicencio, muy por debajo del umbral habitual de 5. No hay multicolinealidad que obligue a eliminar variables candidatas. volumen_dia y frecuencia_barrio se calculan aquí solo con fines exploratorios y no pasarán así a los modelos, para evitar fuga.",
+    "tabla_asociacion": "En Cartagena, las variables más asociadas con el rechazo son el año (V = 0,140) y el barrio (V = 0,125), ambas con efecto pequeño aunque p sea muy bajo por el tamaño de la muestra. El hecho de que el año encabece la lista refuerza la necesidad de validar en orden temporal. En Villavicencio el resultado se asocia ante todo con el mes (V = 0,101).",
+    "fig05_volumen_mensual": "La demanda se concentra en picos: Cartagena llega a 1.262 solicitudes en 2026-02 frente a una mediana de 491, y Villavicencio a 1.911 en 2025-05 frente a 744. En los meses comunes, los picos no coinciden (Spearman de 0,14). Por tanto, el calendario de carga debe estimarse para cada municipio.",
+    "fig06_descomposicion": "En Villavicencio el ciclo semanal tiene fuerza moderada (0,48), aunque la caída de fin de semana está influida por los meses que no registran esos días. En Cartagena, la fuerza anual calculada (0,84) debe leerse con cautela: 27 meses dan poco más de dos ciclos y la descomposición puede atribuir picos aislados a la estacionalidad. Se necesita más historia para afirmar que existe un patrón anual.",
+    "fig07_patrones_robustez": "El patrón semanal se repite en las dos ciudades (correlación de 0,97), con demanda concentrada de lunes a viernes. En Villavicencio, 63,2 % de los registros sigue en Preaprobado y la proporción no baja en los meses más antiguos (Spearman de -0,07 con el orden del mes). Esto sugiere que el estado no es una etapa que se actualice hasta el cierre, o que el cierre no se registra.",
+    "tabla_robustez_cartagena": "Un hallazgo se sostiene: los menores tienen menos rechazo que los adultos en 5 de 5 semestres. En cambio, la relación entre tiempo de residencia y rechazo solo es significativa en 1 de 5, con coeficientes muy bajos, y no debe presentarse como hallazgo general. La tasa global varía de 5,99 % a 18,56 %.",
+    "tabla_robustez_villavicencio": "La finalidad laboral predomina en todos los semestres y la proporción de Preaprobado se mantiene alta. El semestre 2025-S2 es el único con solicitudes fuera de horario, de modo que cualquier comparación por hora debe limitarse a periodos con igual forma de registro.",
+    "tabla_horario_villavicencio": "Las solicitudes fuera de horario y en fin de semana solo aparecen de 2025-09 a 2025-12; todos los demás meses marcan cero. Un corte tan abrupto apunta a un cambio en el sistema o en la forma de registrar la hora, más que a un cambio de conducta. Sin confirmación de la entidad, fuera_horario no debe interpretarse como demanda real.",
+    "tabla_barrios_rechazo": "Pasacaballos concentra el mayor número de solicitudes y su tasa supera la de la mayoría de los barrios principales en 2024 y 2025. El orden de los barrios es moderadamente estable entre años consecutivos (Spearman de 0,53 y 0,48) y más débil entre 2024 y 2026 (0,25), calculado sobre 38 barrios con al menos 100 registros. El alza de 2026 afecta a todos los barrios de la tabla, por lo que no parece un fenómeno local.",
+    "fig00_ruta_crispdm": "Las tres primeras fases son el alcance de este avance y dejan listos los datos y las reglas de evaluación. El modelado y la evaluación se desarrollarán en las siguientes entregas. El despliegue queda como propuesta para Barbosa, cuya viabilidad depende del acceso a sus datos."
+  },
+  "titulos_figuras": {
+    "fig01_objetivo": "Distribución de la variable objetivo y tasa mensual de rechazo, Cartagena",
+    "fig02_variables_principales": "Distribución del tiempo de residencia en Cartagena y de la finalidad en Villavicencio",
+    "fig03_correlaciones_cartagena": "Correlaciones de Pearson y Spearman entre variables de Cartagena",
+    "fig04_correlaciones_villavicencio": "Correlaciones de Pearson y Spearman entre variables de Villavicencio",
+    "fig05_volumen_mensual": "Volumen mensual de solicitudes de certificado de residencia en cada ciudad",
+    "fig06_descomposicion": "Descomposición aditiva de la demanda: tendencia, estacionalidad y residuo",
+    "fig07_patrones_robustez": "Patrón semanal de demanda en ambas ciudades y estado Preaprobado por mes en Villavicencio",
+    "fig00_ruta_crispdm": "Fases de CRISP-DM adaptadas al proyecto; en azul, las trabajadas en el ACA 1"
+  },
+  "titulos_tablas": {
+    "tabla_etl_conteos": "Conteos de registros, variables, faltantes y duplicados en cada paso del ETL",
+    "tabla_ficha_dataset": "Ficha de los dos conjuntos de datos usados en el proyecto",
+    "tabla_diccionario": "Diccionario de datos de las variables originales y derivadas",
+    "tabla_fallas_calidad": "Catálogo de fallas de calidad medidas en los datos originales",
+    "tabla_kpi_calidad": "Indicadores de calidad antes y después del ETL",
+    "tabla_alternativas_atipicos": "Efecto de cuatro tratamientos de los atípicos del tiempo de residencia",
+    "tabla_sensibilidad_duplicados": "Tasa de rechazo por año con y sin los duplicados exactos de Cartagena",
+    "tabla_correlaciones": "Correlaciones de cada variable con el resultado del trámite",
+    "tabla_vif": "Factor de inflación de la varianza (VIF) de las variables candidatas",
+    "tabla_asociacion": "Asociación de las variables categóricas con el resultado (chi-cuadrado y V de Cramér)",
+    "tabla_robustez_cartagena": "Hallazgos de Cartagena repetidos en cada semestre",
+    "tabla_robustez_villavicencio": "Hallazgos de Villavicencio repetidos en cada semestre",
+    "tabla_horario_villavicencio": "Solicitudes fuera de horario y en fin de semana por mes, Villavicencio",
+    "tabla_barrios_rechazo": "Tasa de rechazo (%) por año en los diez barrios con más solicitudes, Cartagena",
+    "tabla_hallazgos_decisiones": "Tres hallazgos del EDA y la decisión que sugiere cada uno",
+    "tabla_protocolo": "Protocolo de evaluación fijado antes de entrenar modelos",
+    "tabla_kpi_complementarios": "Indicadores complementarios de calidad para evaluar la automatización",
+    "tabla_bitacora": "Bitácora de decisiones del ACA 1"
+  },
+  "n_cart_raw": 15007,
+  "n_vill_raw": 11622,
+  "n_cart": 14902,
+  "n_vill": 11615,
+  "dup_c": 97,
+  "dup_v": 7,
+  "n_ids": 5,
+  "n_dirs": 63,
+  "excluidos_c": {
+    "Retirado": 7,
+    "Presentado": 1
+  },
+  "cod_faltante_c": 1417,
+  "barrios_antes": 117,
+  "barrios_despues": 117,
+  "barrios_v_crudos": 2322,
+  "barrios_v_norm": 2085,
+  "comunas_v_crudas": 87,
+  "comunas_v_norm": 18,
+  "sin_clasif": 118,
+  "fuera_patron": 395,
+  "finalidades_v_crudas": 14,
+  "finalidades_v_norm": 13,
+  "segundos_etl": 0.61,
+  "lim_sup_c": 62.5,
+  "codigo_1a1": true,
+  "atip_c": 5,
+  "alt": [
+    {
+      "Alternativa": "A. Conservar y marcar",
+      "Valores alterados": 0,
+      "Media": 17.131,
+      "Desv. estándar": 13.741,
+      "P99": 53.0,
+      "Máximo": 64.0,
+      "KS frente al original": 0.0,
+      "Spearman con rechazo": 0.0216
+    },
+    {
+      "Alternativa": "B. Recortar al límite IQR",
+      "Valores alterados": 5,
+      "Media": 17.131,
+      "Desv. estándar": 13.74,
+      "P99": 53.0,
+      "Máximo": 62.5,
+      "KS frente al original": 0.00034,
+      "Spearman con rechazo": 0.0216
+    },
+    {
+      "Alternativa": "C. Reemplazar por mediana de registros parecidos",
+      "Valores alterados": 5,
+      "Media": 17.117,
+      "Desv. estándar": 13.716,
+      "P99": 52.0,
+      "Máximo": 62.0,
+      "KS frente al original": 0.00034,
+      "Spearman con rechazo": 0.0218
+    },
+    {
+      "Alternativa": "D. Reemplazar por KNN (k = 5)",
+      "Valores alterados": 5,
+      "Media": 17.117,
+      "Desv. estándar": 13.716,
+      "P99": 52.0,
+      "Máximo": 62.0,
+      "KS frente al original": 0.00034,
+      "Spearman con rechazo": 0.0217
+    }
+  ],
+  "sens": [
+    {
+      "Año": 2024,
+      "Con duplicados: registros": 6264,
+      "Con duplicados: % rechazo": 10.7,
+      "Sin duplicados: registros": 6225,
+      "Sin duplicados: % rechazo": 10.14
+    },
+    {
+      "Año": 2025,
+      "Con duplicados: registros": 5651,
+      "Con duplicados: % rechazo": 7.18,
+      "Sin duplicados: registros": 5628,
+      "Sin duplicados: % rechazo": 6.81
+    },
+    {
+      "Año": 2026,
+      "Con duplicados: registros": 3084,
+      "Con duplicados: % rechazo": 19.49,
+      "Sin duplicados: registros": 3049,
+      "Sin duplicados: % rechazo": 18.56
+    }
+  ],
+  "tasa_global": 10.602603677358744,
+  "n_rech": 1580,
+  "n_apr": 13322,
+  "ratio": 8.431645569620253,
+  "tasa_anio": {
+    "2024": 10.136546184738956,
+    "2025": 6.805259417199716,
+    "2026": 18.563463430632996
+  },
+  "prop_prelim": 83.48101265822785,
+  "mes_max_rech": "2026-03",
+  "val_max_rech": 29.780033840947546,
+  "med_apr": 15.0,
+  "med_rec": 17.0,
+  "q_tiempo": {
+    "count": 14902.0,
+    "mean": 17.131066299825527,
+    "std": 13.740877456139632,
+    "min": 0.0,
+    "25%": 5.0,
+    "50%": 15.0,
+    "75%": 28.0,
+    "max": 64.0
+  },
+  "skew_tiempo": 0.6617240152934767,
+  "pct_laboral": 59.66422729229445,
+  "top_fin": {
+    "LABORAL": 59.66422729229445,
+    "EDUCATIVO": 20.430477830391737,
+    "VIVIENDA": 9.754627636676712
+  },
+  "mw_p": 0.008420956615343214,
+  "vif_c_max": 1.2030845285305272,
+  "vif_c_var": "volumen_dia",
+  "vif_v_max": 1.2966728373352479,
+  "vif_v_var": "fuera_horario",
+  "vif_c": {
+    "tiempo_residencia_anios": 1.1901651307582406,
+    "mes": 1.168850474635964,
+    "dia_semana": 1.0222050479487998,
+    "dias_desde_inicio": 1.0782971468258957,
+    "volumen_dia": 1.2030845285305272,
+    "frecuencia_barrio": 1.1723023970352282,
+    "es_menor": 1.0821802144375148,
+    "es_extranjero": 1.0152477226201622,
+    "es_representacion": 1.007334505621003
+  },
+  "vif_v": {
+    "hora": 1.0958182590437027,
+    "mes": 1.1481740840671917,
+    "dia_semana": 1.1000403638297145,
+    "dias_desde_inicio": 1.0903260465947322,
+    "volumen_dia": 1.216221823689254,
+    "es_nino": 1.096635062356664,
+    "es_ppl": 1.0143536076957338,
+    "es_laboral": 1.1161176753058144,
+    "fuera_horario": 1.2966728373352479
+  },
+  "chi": [
+    {
+      "Ciudad": "Cartagena",
+      "Variable": "anio",
+      "Chi-cuadrado": 290.9,
+      "gl": 2,
+      "p": 6.75e-64,
+      "V de Cramér": 0.14
+    },
+    {
+      "Ciudad": "Cartagena",
+      "Variable": "barrio (20 + otros)",
+      "Chi-cuadrado": 231.5,
+      "gl": 20,
+      "p": 6.03e-38,
+      "V de Cramér": 0.125
+    },
+    {
+      "Ciudad": "Cartagena",
+      "Variable": "tipo_documento",
+      "Chi-cuadrado": 43.1,
+      "gl": 3,
+      "p": 2.29e-09,
+      "V de Cramér": 0.054
+    },
+    {
+      "Ciudad": "Cartagena",
+      "Variable": "dia_semana",
+      "Chi-cuadrado": 12.5,
+      "gl": 6,
+      "p": 0.0515,
+      "V de Cramér": 0.029
+    },
+    {
+      "Ciudad": "Cartagena",
+      "Variable": "es_representacion",
+      "Chi-cuadrado": 2.1,
+      "gl": 1,
+      "p": 0.146,
+      "V de Cramér": 0.012
+    },
+    {
+      "Ciudad": "Cartagena",
+      "Variable": "atipico_tiempo",
+      "Chi-cuadrado": 0.0,
+      "gl": 1,
+      "p": 0.965,
+      "V de Cramér": 0.0
+    },
+    {
+      "Ciudad": "Villavicencio",
+      "Variable": "mes",
+      "Chi-cuadrado": 117.6,
+      "gl": 14,
+      "p": 1.84e-18,
+      "V de Cramér": 0.101
+    },
+    {
+      "Ciudad": "Villavicencio",
+      "Variable": "comuna",
+      "Chi-cuadrado": 72.5,
+      "gl": 17,
+      "p": 8.05e-09,
+      "V de Cramér": 0.079
+    },
+    {
+      "Ciudad": "Villavicencio",
+      "Variable": "finalidad",
+      "Chi-cuadrado": 52.8,
+      "gl": 12,
+      "p": 4.49e-07,
+      "V de Cramér": 0.067
+    },
+    {
+      "Ciudad": "Villavicencio",
+      "Variable": "grupo_etario",
+      "Chi-cuadrado": 20.8,
+      "gl": 2,
+      "p": 3.04e-05,
+      "V de Cramér": 0.042
+    },
+    {
+      "Ciudad": "Villavicencio",
+      "Variable": "fuera_horario",
+      "Chi-cuadrado": 18.6,
+      "gl": 1,
+      "p": 1.59e-05,
+      "V de Cramér": 0.04
+    }
+  ],
+  "corr": [
+    {
+      "Ciudad": "Cartagena",
+      "Variable": "tiempo_residencia_anios",
+      "Pearson": 0.027,
+      "Spearman": 0.022,
+      "Respecto a": "rechazo"
+    },
+    {
+      "Ciudad": "Cartagena",
+      "Variable": "mes",
+      "Pearson": -0.097,
+      "Spearman": -0.084,
+      "Respecto a": "rechazo"
+    },
+    {
+      "Ciudad": "Cartagena",
+      "Variable": "dia_semana",
+      "Pearson": 0.008,
+      "Spearman": 0.007,
+      "Respecto a": "rechazo"
+    },
+    {
+      "Ciudad": "Cartagena",
+      "Variable": "dias_desde_inicio",
+      "Pearson": 0.044,
+      "Spearman": 0.053,
+      "Respecto a": "rechazo"
+    },
+    {
+      "Ciudad": "Cartagena",
+      "Variable": "volumen_dia",
+      "Pearson": 0.051,
+      "Spearman": 0.054,
+      "Respecto a": "rechazo"
+    },
+    {
+      "Ciudad": "Cartagena",
+      "Variable": "frecuencia_barrio",
+      "Pearson": 0.046,
+      "Spearman": 0.019,
+      "Respecto a": "rechazo"
+    },
+    {
+      "Ciudad": "Cartagena",
+      "Variable": "es_menor",
+      "Pearson": -0.045,
+      "Spearman": -0.045,
+      "Respecto a": "rechazo"
+    },
+    {
+      "Ciudad": "Cartagena",
+      "Variable": "es_extranjero",
+      "Pearson": 0.017,
+      "Spearman": 0.017,
+      "Respecto a": "rechazo"
+    },
+    {
+      "Ciudad": "Cartagena",
+      "Variable": "es_representacion",
+      "Pearson": 0.012,
+      "Spearman": 0.012,
+      "Respecto a": "rechazo"
+    },
+    {
+      "Ciudad": "Villavicencio",
+      "Variable": "hora",
+      "Pearson": -0.019,
+      "Spearman": -0.015,
+      "Respecto a": "es_aprobado"
+    },
+    {
+      "Ciudad": "Villavicencio",
+      "Variable": "mes",
+      "Pearson": 0.049,
+      "Spearman": 0.051,
+      "Respecto a": "es_aprobado"
+    },
+    {
+      "Ciudad": "Villavicencio",
+      "Variable": "dia_semana",
+      "Pearson": -0.012,
+      "Spearman": -0.009,
+      "Respecto a": "es_aprobado"
+    },
+    {
+      "Ciudad": "Villavicencio",
+      "Variable": "dias_desde_inicio",
+      "Pearson": -0.019,
+      "Spearman": -0.016,
+      "Respecto a": "es_aprobado"
+    },
+    {
+      "Ciudad": "Villavicencio",
+      "Variable": "volumen_dia",
+      "Pearson": 0.03,
+      "Spearman": 0.027,
+      "Respecto a": "es_aprobado"
+    },
+    {
+      "Ciudad": "Villavicencio",
+      "Variable": "es_nino",
+      "Pearson": 0.038,
+      "Spearman": 0.038,
+      "Respecto a": "es_aprobado"
+    },
+    {
+      "Ciudad": "Villavicencio",
+      "Variable": "es_ppl",
+      "Pearson": -0.018,
+      "Spearman": -0.018,
+      "Respecto a": "es_aprobado"
+    },
+    {
+      "Ciudad": "Villavicencio",
+      "Variable": "es_laboral",
+      "Pearson": -0.008,
+      "Spearman": -0.008,
+      "Respecto a": "es_aprobado"
+    },
+    {
+      "Ciudad": "Villavicencio",
+      "Variable": "fuera_horario",
+      "Pearson": -0.04,
+      "Spearman": -0.04,
+      "Respecto a": "es_aprobado"
+    }
+  ],
+  "pares_c": {
+    "mes ~ volumen_dia": -0.319232288282376,
+    "tiempo_residencia_anios ~ frecuencia_barrio": 0.20462758846371923,
+    "mes ~ es_menor": 0.19340903854856728,
+    "dias_desde_inicio ~ volumen_dia": 0.17474769438492013,
+    "dia_semana ~ volumen_dia": -0.14308713760756475
+  },
+  "pares_v": {
+    "mes ~ fuera_horario": 0.32116630923315675,
+    "es_nino ~ es_laboral": -0.2397237104849166,
+    "dias_desde_inicio ~ volumen_dia": -0.23826448897770292,
+    "hora ~ fuera_horario": 0.2198763060526699,
+    "volumen_dia ~ es_laboral": -0.1998194087858749
+  },
+  "fuerza_est_c": 0.840607068159434,
+  "fuerza_tend_c": 0.35956110217134507,
+  "fuerza_est_v": 0.4794786659084148,
+  "fuerza_tend_v": 0.48965537837662076,
+  "pico_c": "2026-02",
+  "pico_c_n": 1262,
+  "mediana_c": 491.0,
+  "pico_v": "2025-05",
+  "pico_v_n": 1911,
+  "mediana_v": 744.0,
+  "meses_top3_c": [
+    "2026-02",
+    "2026-01",
+    "2024-04"
+  ],
+  "meses_top3_v": [
+    "2025-05",
+    "2025-11",
+    "2025-03"
+  ],
+  "corr_meses_comunes": 0.14285714285714285,
+  "cv_c": 0.46948750197070366,
+  "cv_v": 0.4619940187283144,
+  "mes_est_c_max": 3,
+  "mes_est_c_min": 11,
+  "rob_c": [
+    {
+      "Semestre": "2024-S1",
+      "Registros": 3722,
+      "% rechazo": 12.92,
+      "% rechazo sin código": 12.6,
+      "% rechazo con código": 0.32,
+      "Mediana tiempo aprobados": 18.0,
+      "Mediana tiempo rechazados": 20.0,
+      "Spearman tiempo-rechazo": 0.019,
+      "p": 0.259,
+      "% rechazo menores": 4.76,
+      "% rechazo adultos": 12.97,
+      "% fin de semana": 7.42
+    },
+    {
+      "Semestre": "2024-S2",
+      "Registros": 2503,
+      "% rechazo": 5.99,
+      "% rechazo sin código": 5.87,
+      "% rechazo con código": 0.12,
+      "Mediana tiempo aprobados": 12.0,
+      "Mediana tiempo rechazados": 11.0,
+      "Spearman tiempo-rechazo": -0.009,
+      "p": 0.669,
+      "% rechazo menores": 5.52,
+      "% rechazo adultos": 6.06,
+      "% fin de semana": 7.95
+    },
+    {
+      "Semestre": "2025-S1",
+      "Registros": 2893,
+      "% rechazo": 7.09,
+      "% rechazo sin código": 6.15,
+      "% rechazo con código": 0.93,
+      "Mediana tiempo aprobados": 15.0,
+      "Mediana tiempo rechazados": 20.0,
+      "Spearman tiempo-rechazo": 0.045,
+      "p": 0.0166,
+      "% rechazo menores": 2.27,
+      "% rechazo adultos": 7.32,
+      "% fin de semana": 8.5
+    },
+    {
+      "Semestre": "2025-S2",
+      "Registros": 2735,
+      "% rechazo": 6.51,
+      "% rechazo sin código": 2.12,
+      "% rechazo con código": 4.39,
+      "Mediana tiempo aprobados": 12.0,
+      "Mediana tiempo rechazados": 15.0,
+      "Spearman tiempo-rechazo": 0.018,
+      "p": 0.339,
+      "% rechazo menores": 3.61,
+      "% rechazo adultos": 6.87,
+      "% fin de semana": 8.78
+    },
+    {
+      "Semestre": "2026-S1",
+      "Registros": 3049,
+      "% rechazo": 18.56,
+      "% rechazo sin código": 15.32,
+      "% rechazo con código": 3.25,
+      "Mediana tiempo aprobados": 15.1,
+      "Mediana tiempo rechazados": 15.0,
+      "Spearman tiempo-rechazo": -0.012,
+      "p": 0.496,
+      "% rechazo menores": 14.29,
+      "% rechazo adultos": 18.64,
+      "% fin de semana": 8.76
+    }
+  ],
+  "rob_v": [
+    {
+      "Semestre": "2025-S1",
+      "Registros": 4530,
+      "% Aprobado": 37.33,
+      "% Preaprobado": 62.6,
+      "% laboral": 52.56,
+      "% fuera de horario": 0.0,
+      "% fin de semana": 0.0
+    },
+    {
+      "Semestre": "2025-S2",
+      "Registros": 4574,
+      "% Aprobado": 38.43,
+      "% Preaprobado": 61.5,
+      "% laboral": 63.64,
+      "% fuera de horario": 14.12,
+      "% fin de semana": 4.63
+    },
+    {
+      "Semestre": "2026-S1",
+      "Registros": 2511,
+      "% Aprobado": 32.26,
+      "% Preaprobado": 67.14,
+      "% laboral": 65.23,
+      "% fuera de horario": 0.0,
+      "% fin de semana": 0.0
+    }
+  ],
+  "corr_dias": 0.9725689814683557,
+  "pct_finde_c": 8.240504630250973,
+  "pct_finde_v": 1.8252260008609558,
+  "pct_fh_v": 5.561773568661214,
+  "pre_min": 52.644230769230774,
+  "pre_max": 77.94612794612794,
+  "pre_global": 63.1510977184675,
+  "apr_global": 36.66810159276797,
+  "sr_pre": -0.07142857142857142,
+  "sr_pre_p": 0.8166280406760861,
+  "rech_menor": 4.880952380952381,
+  "rech_adulto": 10.94438913383587,
+  "rech_rep": 12.459016393442624,
+  "rech_prop": 10.523369717324377,
+  "rech_ext": 14.93212669683258,
+  "n_barrios_100": 38,
+  "corr_barrios": {
+    "2024-2025": 0.5306703154319574,
+    "2025-2026": 0.47509581106046544,
+    "2024-2026": 0.25354426479171543
+  },
+  "horario_v": [
+    {
+      "Mes": "2025-02",
+      "Solicitudes": 67,
+      "% fuera de horario": 0.0,
+      "% fin de semana": 0.0
+    },
+    {
+      "Mes": "2025-03",
+      "Solicitudes": 1140,
+      "% fuera de horario": 0.0,
+      "% fin de semana": 0.0
+    },
+    {
+      "Mes": "2025-04",
+      "Solicitudes": 806,
+      "% fuera de horario": 0.0,
+      "% fin de semana": 0.0
+    },
+    {
+      "Mes": "2025-05",
+      "Solicitudes": 1911,
+      "% fuera de horario": 0.0,
+      "% fin de semana": 0.0
+    },
+    {
+      "Mes": "2025-06",
+      "Solicitudes": 606,
+      "% fuera de horario": 0.0,
+      "% fin de semana": 0.0
+    },
+    {
+      "Mes": "2025-07",
+      "Solicitudes": 636,
+      "% fuera de horario": 0.0,
+      "% fin de semana": 0.0
+    },
+    {
+      "Mes": "2025-08",
+      "Solicitudes": 613,
+      "% fuera de horario": 0.0,
+      "% fin de semana": 0.0
+    },
+    {
+      "Mes": "2025-09",
+      "Solicitudes": 740,
+      "% fuera de horario": 3.51,
+      "% fin de semana": 1.08
+    },
+    {
+      "Mes": "2025-10",
+      "Solicitudes": 779,
+      "% fuera de horario": 24.9,
+      "% fin de semana": 7.45
+    },
+    {
+      "Mes": "2025-11",
+      "Solicitudes": 1390,
+      "% fuera de horario": 24.89,
+      "% fin de semana": 7.84
+    },
+    {
+      "Mes": "2025-12",
+      "Solicitudes": 416,
+      "% fuera de horario": 19.23,
+      "% fin de semana": 8.89
+    },
+    {
+      "Mes": "2026-01",
+      "Solicitudes": 594,
+      "% fuera de horario": 0.0,
+      "% fin de semana": 0.0
+    },
+    {
+      "Mes": "2026-02",
+      "Solicitudes": 1006,
+      "% fuera de horario": 0.0,
+      "% fin de semana": 0.0
+    },
+    {
+      "Mes": "2026-03",
+      "Solicitudes": 744,
+      "% fuera de horario": 0.0,
+      "% fin de semana": 0.0
+    },
+    {
+      "Mes": "2026-04",
+      "Solicitudes": 167,
+      "% fuera de horario": 0.0,
+      "% fin de semana": 0.0
+    }
+  ],
+  "bar": [
+    {
+      "Barrio": "PASACABALLOS",
+      "Registros": 2741,
+      "2024": 13.14,
+      "2025": 11.88,
+      "2026": 19.58
+    },
+    {
+      "Barrio": "SAN JOSE DE LOS CAMPANOS",
+      "Registros": 967,
+      "2024": 8.67,
+      "2025": 2.47,
+      "2026": 17.14
+    },
+    {
+      "Barrio": "20 DE JULIO",
+      "Registros": 599,
+      "2024": 16.59,
+      "2025": 3.39,
+      "2026": 17.14
+    },
+    {
+      "Barrio": "SAN SEBASTIAN DE TERNERA",
+      "Registros": 552,
+      "2024": 5.33,
+      "2025": 4.57,
+      "2026": 13.89
+    },
+    {
+      "Barrio": "NELSON MANDELA",
+      "Registros": 528,
+      "2024": 9.9,
+      "2025": 4.02,
+      "2026": 15.69
+    },
+    {
+      "Barrio": "URBANIZACION LA CAROLINA",
+      "Registros": 465,
+      "2024": 2.48,
+      "2025": 3.41,
+      "2026": 18.39
+    },
+    {
+      "Barrio": "BLAS DE LEZO ETAPA 1 Y 2",
+      "Registros": 435,
+      "2024": 3.06,
+      "2025": 3.36,
+      "2026": 14.44
+    },
+    {
+      "Barrio": "EL SOCORRO",
+      "Registros": 435,
+      "2024": 4.31,
+      "2025": 4.73,
+      "2026": 12.28
+    },
+    {
+      "Barrio": "SAN FERNANDO",
+      "Registros": 391,
+      "2024": 8.55,
+      "2025": 4.76,
+      "2026": 26.76
+    },
+    {
+      "Barrio": "POLICARPA",
+      "Registros": 379,
+      "2024": 13.2,
+      "2025": 14.85,
+      "2026": 18.52
+    }
+  ],
+  "menor_siempre_menos": true,
+  "sem_spearman_signif": 1,
+  "sem_total": 5,
+  "estados_c": {
+    "Aprobado": 13320,
+    "Solicitud Rechazada": 1416,
+    "Rechazado": 261,
+    "Retirado": 7,
+    "Aprobado Parcial": 2,
+    "Presentado": 1
+  },
+  "segundos_total": 11.87,
+  "semilla": 42
+}
