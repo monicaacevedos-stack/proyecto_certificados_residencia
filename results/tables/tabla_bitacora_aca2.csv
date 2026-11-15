@@ -1,0 +1,15 @@
+﻿Fecha,Decisión,Alternativas consideradas,Por qué se eligió,Evidencia
+2026-11-14,Escribir las reglas como transformadores de scikit-learn,Funciones sueltas en el cuaderno,Recomendación del docente: el mismo código sirve para reportes de calidad y para el Pipeline del objetivo 3,tabla_reglas_pipeline; tests/
+2026-11-14,Dejar las reglas que quitan filas fuera del Pipeline de modelado,Incluirlas en el Pipeline,scikit-learn exige que X e y conserven el mismo número de filas,src/certificados/reglas.py
+2026-11-14,Validar los scripts contra la base del ACA 1 y con fallas inyectadas,Revisar a ojo la salida,La equivalencia exacta y la inyección miden el efecto de cada regla con evidencia,tabla_equivalencia_scripts; tabla_inyeccion_fallas
+2026-11-14,Mover el corte de prueba al inicio del día del percentil 80,Cortar exactamente en el 80 % de las filas,Un mismo día quedaba partido entre entrenamiento y prueba,tabla_particion
+2026-11-14,Aplicar TimeSeriesSplit sobre días y no sobre filas,TimeSeriesSplit sobre filas,Las variables de rezago son iguales para todo un día y permitirían reconocer días partidos,src/certificados/caracteristicas.py
+2026-11-14,Desfase de 14 días en las tasas de rechazo previas,Usar el día anterior,No hay fecha de cierre: no se sabe cuándo se conoce la decisión de una solicitud,tabla_variables_creadas
+2026-11-14,No usar año ni días desde el inicio como variables,Incluir la tendencia,La prueba está en 2026: el modelo tendría que extrapolar una tendencia que cambia de régimen,tabla_deriva
+2026-11-14,Codificar el barrio con TargetEncoder dentro del Pipeline,One-hot de 117 barrios; frecuencia sobre toda la base,Evita columnas dispersas y la fuga de frecuencia_barrio del EDA,tabla_variables_creadas
+2026-11-14,Selección con información mutua frente a sondas aleatorias y LASSO,RFE; Boruta completo,Dos criterios distintos y baratos; las sondas dan un umbral objetivo de ruido,tabla_seleccion_variables
+2026-11-14,Buscar el umbral de decisión junto con los hiperparámetros,"Umbral fijo de 0,5","Con pesos de clase, el umbral de 0,5 genera demasiadas alertas y baja el F1-macro",tabla_hiperparametros
+2026-11-14,Balanceo con pesos de clase; sobremuestreo aleatorio solo para KNN,SMOTE para todos,Los pesos no crean registros sintéticos; KNN no admite pesos,src/certificados/modelado.py
+2026-11-14,30 pruebas de Optuna por modelo,Más pruebas para los modelos complejos,La comparación solo es justa con el mismo presupuesto,optuna_trials.csv
+2026-11-14,No entrenar LSTM ni GRU,Secuencias diarias de solicitudes,Cada fila es una solicitud independiente sin historia por persona; la parte temporal ya entra con rezagos y ventanas,tabla_variables_creadas
+2026-11-14,Elegir LightGBM como mejor modelo,Elegir por la prueba final,El protocolo elige por la media de F1-macro en validación; la prueba solo confirma,tabla_resultados_modelos

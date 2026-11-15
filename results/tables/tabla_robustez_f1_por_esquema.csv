@@ -1,0 +1,11 @@
+﻿,"10 cortes, semilla 42 (principal)","10 cortes, 5 semillas",5 cortes,"10 cortes, ventana de 120 días"
+Regresión logística,0.4971,0.4977,0.5082,0.3605
+Lasso logístico (L1),0.4975,0.4977,0.5096,0.3712
+KNN,0.509,0.5065,0.5125,0.5148
+SVM (RBF),0.4935,0.4912,0.4942,0.4986
+Árbol de decisión,0.5192,0.5165,0.503,0.52
+Random Forest,0.5081,0.5084,0.4944,0.5124
+XGBoost,0.5117,0.5044,0.5217,0.5153
+LightGBM,0.5218,0.5102,0.52,0.5072
+MLP,0.5127,0.4956,0.5006,0.4872
+Base estratificada,0.5054,0.4922,0.498,0.5042

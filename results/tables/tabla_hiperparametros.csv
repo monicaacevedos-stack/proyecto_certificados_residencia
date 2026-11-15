@@ -1,0 +1,41 @@
+﻿Modelo,Hiperparámetro,Espacio de búsqueda,Mejor valor
+Regresión logística,C,"1e-3 a 10, log","9,01"
+Regresión logística,umbral de decisión,0.05 a 0.95,"0,685"
+Lasso logístico (L1),C,"1e-3 a 10, log","9,47"
+Lasso logístico (L1),umbral de decisión,0.05 a 0.95,"0,7"
+KNN,n_neighbors,5 a 151,7
+KNN,weights,"uniform, distance",uniform
+KNN,p,"1, 2",1
+KNN,umbral de decisión,0.05 a 0.95,"0,931"
+SVM (RBF),C,"1e-2 a 10, log","2,98"
+SVM (RBF),gamma,"1e-4 a 1, log","0,0188"
+SVM (RBF),umbral de decisión,0.05 a 0.95,"0,694"
+Árbol de decisión,max_depth,2 a 12,10
+Árbol de decisión,min_samples_leaf,5 a 200,130
+Árbol de decisión,criterion,"gini, entropy",entropy
+Árbol de decisión,umbral de decisión,0.05 a 0.95,"0,688"
+Random Forest,n_estimators,100 a 400,350
+Random Forest,max_depth,3 a 16,3
+Random Forest,min_samples_leaf,1 a 50,2
+Random Forest,max_features,"sqrt, 0.5, 0.8","0,5"
+Random Forest,umbral de decisión,0.05 a 0.95,"0,555"
+XGBoost,n_estimators,100 a 500,250
+XGBoost,max_depth,2 a 8,7
+XGBoost,learning_rate,"0.01 a 0.3, log","0,127"
+XGBoost,subsample,0.6 a 1,"0,944"
+XGBoost,colsample_bytree,0.5 a 1,"0,53"
+XGBoost,min_child_weight,1 a 20,4
+XGBoost,reg_lambda,"1e-3 a 10, log","0,17"
+XGBoost,umbral de decisión,0.05 a 0.95,"0,27"
+LightGBM,n_estimators,100 a 500,150
+LightGBM,num_leaves,8 a 64,14
+LightGBM,learning_rate,"0.01 a 0.3, log","0,164"
+LightGBM,min_child_samples,10 a 200,27
+LightGBM,subsample,0.6 a 1,"0,637"
+LightGBM,colsample_bytree,0.5 a 1,"0,802"
+LightGBM,reg_lambda,"1e-3 a 10, log","0,016"
+LightGBM,umbral de decisión,0.05 a 0.95,"0,621"
+MLP,hidden_layer_sizes,"(32,), (64,), (64, 32), (128, 64)",64-32
+MLP,alpha,"1e-5 a 1e-1, log","7,22e-05"
+MLP,learning_rate_init,"1e-4 a 1e-2, log","0,00553"
+MLP,umbral de decisión,0.05 a 0.95,"0,688"

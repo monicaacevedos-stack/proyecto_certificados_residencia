@@ -1,0 +1,4 @@
+﻿Configuración,Variables,F1-macro (validación),AUC-ROC (validación),AUC-PR (validación),F1-macro (prueba),AUC-ROC (prueba)
+Con ingeniería de características (variables seleccionadas),26,"0,522 ± 0,044","0,583 ± 0,070","0,120 ± 0,049",0.475,0.533
+Con todas las variables candidatas,30,"0,507 ± 0,029","0,556 ± 0,066","0,103 ± 0,039",0.476,0.529
+Sin ingeniería de características,5,"0,520 ± 0,022","0,598 ± 0,058","0,119 ± 0,039",0.526,0.55

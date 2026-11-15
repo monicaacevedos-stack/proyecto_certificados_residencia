@@ -1,0 +1,31 @@
+﻿Variable,Grupo,Información mutua,Supera a las sondas,% de cortes que conserva LASSO,Decisión
+ratio_volumen_7d_30d,Rezagos y ventanas,0.0234,Sí,90.0,Se conserva
+volumen_30d_previo,Rezagos y ventanas,0.0201,Sí,90.0,Se conserva
+tasa_rechazo_previa_30d,Rezagos y ventanas,0.0195,Sí,80.0,Se conserva
+barrio_te,Barrio,0.0175,Sí,50.0,Se conserva
+barrio_frecuencia,Barrio,0.0136,Sí,0.0,Se conserva
+volumen_7d_previo,Rezagos y ventanas,0.0086,Sí,100.0,Se conserva
+tasa_rechazo_barrio_previa_90d,Barrio,0.0075,Sí,100.0,Se conserva
+semana_anio,Calendario,0.0074,Sí,70.0,Se conserva
+mes_sin,Calendario,0.0072,Sí,90.0,Se conserva
+mes,Calendario,0.0057,Sí,0.0,Se conserva
+mes_cos,Calendario,0.0052,Sí,50.0,Se conserva
+tiempo_residencia_anios,Residencia,0.005,Sí,90.0,Se conserva
+log_tiempo_residencia,Residencia,0.0031,Sí,0.0,Se conserva
+trimestre,Calendario,0.0024,No,80.0,Se conserva
+dia_semana_cos,Calendario,0.0021,No,90.0,Se conserva
+dia_mes,Calendario,0.0017,No,70.0,Se conserva
+es_menor,Solicitante y documento,0.001,No,80.0,Se conserva
+dia_semana_sin,Calendario,0.0006,No,100.0,Se conserva
+tiempo_cero,Residencia,0.0005,No,80.0,Se conserva
+es_extranjero,Solicitante y documento,0.0002,No,100.0,Se conserva
+es_festivo,Calendario,0.0001,No,90.0,Se conserva
+es_fin_mes,Calendario,0.0001,No,50.0,Se conserva
+despues_de_festivo,Calendario,0.0,No,90.0,Se conserva
+es_inicio_mes,Calendario,0.0,No,70.0,Se conserva
+es_representacion,Solicitante y documento,0.0,No,100.0,Se conserva
+juramento,Solicitante y documento,0.0,No,100.0,Se conserva
+dia_semana,Calendario,0.0026,No,40.0,Se descarta
+tipo_documento,Solicitante y documento,0.001,No,30.0,Se descarta
+tiempo_decimal,Residencia,0.0001,No,30.0,Se descarta
+atipico_tiempo,Residencia,0.0,No,0.0,Se descarta

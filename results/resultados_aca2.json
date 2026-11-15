@@ -1,0 +1,563 @@
+{
+  "interpretaciones": {
+    "tabla_equivalencia_scripts": "Los scripts producen exactamente las mismas bases que el cuaderno del objetivo 1: 14.902 registros en Cartagena y 11.615 en Villavicencio, con cero celdas distintas. La misma comprobación corre como prueba automática (tests/test_equivalencia.py), así que cualquier cambio futuro en una regla que altere la base se detecta antes de usarla.",
+    "fig08_calidad_lotes": "En los 15 lotes de Villavicencio la conformidad de la comuna sube en todos los meses; el valor mensual más bajo pasa de 92,8 % antes de los scripts a 98,0 % después. Lo que queda por debajo de 100 % son comunas que la regla no puede interpretar y deja como Sin clasificar en lugar de adivinarlas. Cada lote se procesa en una mediana de 14,3 milisegundos.",
+    "tabla_calidad_lotes_resumen": "Aplicados lote por lote, los scripts dejan la unicidad en 100 % y la completitud en 100,0 % o más en todos los meses de ambas fuentes. En Cartagena retiran 97 duplicados, los mismos que en el procesamiento completo, porque todas las repeticiones caen dentro del mismo mes; aun así, en la operación real conviene comparar cada lote también contra el histórico, porque un reenvío puede llegar al mes siguiente.",
+    "tabla_inyeccion_fallas": "Las reglas corrigen o detectan el 100 % de cada tipo de falla inyectada. Además, no enmascaran por error ninguno de los 600 barrios legítimos de los grupos de control (0 falsos positivos) ni ninguno de los 117 nombres de barrio de Cartagena (0). La prueba solo cubre los patrones conocidos: una dirección escrita sin números o un identificador partido en bloques cortos no serían detectados, y por eso el enmascaramiento debe completarse con revisión humana antes de publicar.",
+    "tabla_kpi_automatizacion": "Con los indicadores fijados en el protocolo, los scripts llevan la unicidad a 100 % en ambas fuentes y la conformidad de la comuna de Villavicencio de 96,60 % a 98,98 %, con 18 categorías en lugar de 87. Los 68 datos personales de la descarga original quedan en cero. La base completa de cada fuente se procesa en menos de 0,2 segundos; sigue sin existir una medición del proceso manual para comparar ese tiempo.",
+    "tabla_particion": "La prueba final empieza el 2026-01-06 y reúne 2.995 solicitudes (20,1 %), con una tasa de rechazo de 18,8 % frente a 8,5 % en el bloque de entrenamiento. Los 10 cortes de validación avanzan en el tiempo y ninguno usa fechas posteriores a las de su entrenamiento. La tasa de rechazo de la prueba duplica la del entrenamiento: es la deriva que se analiza a continuación.",
+    "tabla_deriva": "Sí hay deriva en las covariables. La más fuerte es la carga de la oficina: las solicitudes de los 7 días previos pasan de una media de 137 a 294 (Jensen-Shannon de 0,611). También cambia el perfil: la tarjeta de identidad baja de 6,6 % a 1,6 % de las solicitudes (distancia de 0,115 en el tipo de documento). El barrio y el tiempo de residencia cambian poco (distancias de 0,090 y 0,067), y un clasificador que intenta distinguir entrenamiento de prueba con las variables del solicitante solo alcanza un AUC de 0,578.",
+    "fig09_deriva": "Si solo hubiera cambiado el perfil de quienes solicitan, la tasa de rechazo esperada en la prueba sería 8,8 %; al agregar la carga de la oficina sube a 11,5 %. La observada es 18,8 %. Además, dentro de un mismo tipo de documento la tasa se duplica: con cédula de ciudadanía pasa de 8,8 % a 18,8 %. La mayor parte del alza no se explica por quién solicita, sino por un cambio de criterio o de registro en 2026 que coincide con el aumento de la demanda; con estos datos no se pueden separar esas dos causas. Por eso se anticipa que la prueba será más difícil que la validación.",
+    "tabla_seleccion_variables": "De 30 variables candidatas se conservan 26: 13 superan a las sondas aleatorias y 23 se mantienen en LASSO en al menos la mitad de los cortes. La de mayor información mutua es ratio_volumen_7d_30d (0,0234); supera el umbral de ruido de 0,0031, pero sigue siendo un valor bajo en términos absolutos, lo que confirma que cada variable aporta muy poca información por sí sola. Se descartan tiempo_decimal, atipico_tiempo, tipo_documento, dia_semana.",
+    "tabla_hiperparametros": "Todos los modelos ajustables recibieron el mismo presupuesto de 30 pruebas sobre los mismos 10 cortes. Los umbrales de decisión elegidos van de 0,27 a 0,93; en 7 de los 8 modelos con pesos de clase el umbral queda por encima de 0,5, porque los pesos inflan la probabilidad de rechazo y el F1-macro castiga tanto las alertas falsas como los rechazos no detectados.",
+    "tabla_resultados_modelos": "En validación, el mejor modelo es LightGBM, con F1-macro de 0,522 ± 0,044, frente a 0,505 de la mejor línea base (Base estratificada); la diferencia es 0,016. En la prueba final LightGBM obtiene 0,475 y la línea base 0,480. Las desviaciones entre cortes son del mismo orden que las diferencias entre modelos, y los AUC-ROC quedan entre 0,516 y 0,618: la señal para anticipar el rechazo existe, pero es débil.",
+    "fig10_comparacion_modelos": "Los puntos de cada corte se solapan entre la mayoría de los modelos, lo que muestra que el orden en validación es frágil. Arriba quedan LightGBM, Árbol de decisión y MLP; ningún modelo supera a la línea base Base estratificada en todos los cortes. En la mayoría de los modelos ajustados, el rombo de la prueba final queda por debajo de su media de validación, como anticipaba el análisis de deriva.",
+    "fig11_mejor_modelo": "En la prueba final, LightGBM identifica 24 de 563 rechazos (4,3 %) y marca como rechazo 97 de 2.432 aprobados (4,0 %). Su AUC-ROC en prueba es 0,533 y la curva de precisión y exhaustividad queda cerca de la tasa de rechazo en casi todo su recorrido: el modelo ordena las solicitudes apenas mejor que el azar, y con el umbral elegido en validación emite muy pocas alertas porque aprendió una tasa de rechazo que en 2026 se duplicó.",
+    "tabla_ablacion_fe": "En validación, la ingeniería de características casi no cambia el resultado frente a usar solo las variables originales: el F1-macro cambia en 0,002 y el AUC-ROC en -0,016. En la prueba, la versión sin ingeniería es mejor (0,526 sin ella frente a 0,475 con ella). Las variables nuevas describen sobre todo el régimen de rechazo y de carga del pasado, y ese régimen cambia en 2026; por eso aportan poco o incluso estorban fuera de muestra. Usar las 30 candidatas en lugar de las 26 seleccionadas da 0,507 en validación, de modo que la selección sí mejora frente a no seleccionar.",
+    "tabla_votacion": "La votación de LightGBM, Árbol de decisión y MLP obtiene F1-macro de 0,528 en validación y 0,510 en prueba, frente a 0,522 y 0,475 de LightGBM. La combinación sube el AUC-ROC de validación en 0,024 y el F1-macro en 0,006, una diferencia menor que la desviación entre cortes; en la prueba gana 0,035 de F1-macro, porque promediar modelos distintos amortigua el error del individual. Aun así, sigue por debajo del umbral de mejora de 0,05 sobre la línea base, de modo que la complejidad adicional todavía no se traduce en un modelo útil.",
+    "tabla_robustez_modelos": "El orden de los modelos se mantiene solo en parte al variar la semilla y la partición (tau de Kendall entre 0,38 y 0,51), y LightGBM queda en las posiciones 1, 2, 2, 5 según el esquema. El cambio más fuerte aparece con la ventana de 120 días: los modelos lineales caen a un F1-macro de 0,360 a 0,371, mientras que los de árboles quedan entre 0,507 y 0,520. La conclusión que sí se sostiene en todos los esquemas es que la diferencia entre el mejor modelo y la línea base estratificada no supera 0,025.",
+    "tabla_ablacion_grupos": "El grupo que más aporta es Barrio: sin él, el AUC-ROC de validación cambia en -0,070 y el F1-macro en -0,027. Los cambios del F1-macro son pequeños frente a su desviación entre cortes, así que la ablación por grupos se ampliará con la prueba estadística del ACA 3. En la prueba, en cambio, quitar los rezagos y ventanas mejora el F1-macro (0,540 frente a 0,475), coherente con la deriva: esas variables resumen un régimen de rechazo que ya no se cumple en 2026.",
+    "tabla_decision": "De cada 100 solicitudes de la prueba, 18,8 terminan rechazadas. El modelo emite 4,0 alertas y 0,8 de ellas aciertan: de cada 100 alertas, unas 20 corresponden a un rechazo real, frente a 19 si se revisaran solicitudes al azar. Con una precisión tan cercana a la del azar, el modelo todavía no serviría ni siquiera para priorizar una revisión previa de requisitos, y mucho menos para decidir un trámite.",
+    "tabla_criterio_exito": "Con la evidencia de esta entrega, el criterio de éxito no se cumple: la mejora sobre la línea base es de 0,016 en validación y de -0,005 en prueba, por debajo del mínimo de 0,05 fijado antes de entrenar. Según la regla de la arquitectura, el tablero no debe mostrar predicciones de rechazo y se limitará a indicadores de calidad, salvo que el ACA 3 cambie esta conclusión."
+  },
+  "titulos_figuras": {
+    "fig08_calidad_lotes": "Conformidad y número de categorías de la comuna antes y después de los scripts, por lote mensual, Villavicencio",
+    "fig09_deriva": "Tasa mensual de rechazo observada y tasa esperada en la prueba si solo cambiaran las covariables, Cartagena",
+    "fig10_comparacion_modelos": "Comparación de los doce modelos: F1-macro en cada corte de validación, media ± desviación y prueba final, y AUC medio en validación",
+    "fig11_mejor_modelo": "Desempeño del mejor modelo en validación (LightGBM) sobre la prueba final: matriz de confusión, curva ROC y curva de precisión y exhaustividad"
+  },
+  "titulos_tablas": {
+    "tabla_reglas_pipeline": "Reglas de calidad convertidas en transformadores de scikit-learn, por fuente",
+    "tabla_equivalencia_scripts": "Comparación entre la base limpia del ETL del ACA 1 y la producida por los scripts",
+    "tabla_calidad_por_lote": "Indicadores de calidad antes y después de aplicar los scripts a cada lote mensual",
+    "tabla_calidad_lotes_resumen": "Resumen de los indicadores de calidad en los lotes mensuales, peor lote antes y después de los scripts",
+    "tabla_inyeccion_fallas": "Efectividad de las reglas frente a fallas inyectadas de forma controlada, Villavicencio",
+    "tabla_kpi_automatizacion": "Indicadores de calidad de la Tabla 4 medidos antes y después de los scripts",
+    "tabla_particion": "Partición temporal: bloque de entrenamiento y validación, cortes de TimeSeriesSplit y prueba final",
+    "tabla_deriva": "Cambio de distribución entre el bloque de entrenamiento (80 % inicial) y la prueba (20 % final), Cartagena",
+    "tabla_variables_creadas": "Variables creadas en la ingeniería de características: fórmula y justificación",
+    "tabla_seleccion_variables": "Selección de variables con información mutua frente a sondas aleatorias y estabilidad de LASSO en los 10 cortes",
+    "tabla_hiperparametros": "Espacio de búsqueda y mejores valores encontrados por Optuna (30 pruebas por modelo, TPE, semilla 42)",
+    "tabla_resultados_modelos": "Desempeño de la batería de modelos: media ± desviación estándar en los 10 cortes de validación y resultado en la prueba final",
+    "tabla_ablacion_fe": "Ablación de la ingeniería de características en el mejor modelo (LightGBM)",
+    "tabla_votacion": "Votación suave de los tres mejores modelos frente a cada uno por separado (umbral 0,55 elegido en validación)",
+    "tabla_robustez_modelos": "Estabilidad del orden de los modelos al cambiar la semilla y la forma de partir los datos",
+    "tabla_ablacion_grupos": "Cambio en el desempeño de LightGBM al retirar cada grupo de variables",
+    "tabla_decision": "Lectura del mejor modelo (LightGBM) en la prueba final, expresada por cada 100 solicitudes",
+    "tabla_criterio_exito": "Verificación preliminar del criterio de éxito fijado en el protocolo de evaluación",
+    "tabla_bitacora_aca2": "Bitácora de decisiones del ACA 2"
+  },
+  "dup_total_cartagena": 97,
+  "dup_total_villavicencio": 7,
+  "lotes": [
+    {
+      "Ciudad": "Cartagena",
+      "Lotes": 27,
+      "Registros": 15007,
+      "Duplicados retirados": 97,
+      "Completitud antes (mín. %)": 100.0,
+      "Completitud después (mín. %)": 100.0,
+      "Unicidad antes (mín. %)": 96.89,
+      "Unicidad después (mín. %)": 100.0,
+      "Conformidad antes (mín. %)": 98.04,
+      "Conformidad después (mín. %)": 100.0,
+      "Milisegundos por lote (mediana)": 12.3
+    },
+    {
+      "Ciudad": "Villavicencio",
+      "Lotes": 15,
+      "Registros": 11622,
+      "Duplicados retirados": 7,
+      "Completitud antes (mín. %)": 99.07,
+      "Completitud después (mín. %)": 100.0,
+      "Unicidad antes (mín. %)": 99.83,
+      "Unicidad después (mín. %)": 100.0,
+      "Conformidad antes (mín. %)": 92.81,
+      "Conformidad después (mín. %)": 97.96,
+      "Milisegundos por lote (mediana)": 14.3
+    }
+  ],
+  "iny_falsos_positivos": 0,
+  "iny_base_fp": 600,
+  "fp_barrios_cartagena": 0,
+  "n_barrios_cartagena": 117,
+  "kpi_auto": [
+    {
+      "Indicador": "Completitud (%)",
+      "Cartagena antes": 100.0,
+      "Cartagena después": 100.0,
+      "Villavicencio antes": 99.9,
+      "Villavicencio después": 100.0
+    },
+    {
+      "Indicador": "Unicidad (%)",
+      "Cartagena antes": 99.35,
+      "Cartagena después": 100.0,
+      "Villavicencio antes": 99.94,
+      "Villavicencio después": 100.0
+    },
+    {
+      "Indicador": "Conformidad geográfica (%)",
+      "Cartagena antes": 99.52,
+      "Cartagena después": 100.0,
+      "Villavicencio antes": 96.6,
+      "Villavicencio después": 98.98
+    },
+    {
+      "Indicador": "Categorías geográficas",
+      "Cartagena antes": 117,
+      "Cartagena después": 117.0,
+      "Villavicencio antes": 87,
+      "Villavicencio después": 18.0
+    },
+    {
+      "Indicador": "Datos personales expuestos",
+      "Cartagena antes": 0,
+      "Cartagena después": 0.0,
+      "Villavicencio antes": 68,
+      "Villavicencio después": 0.0
+    },
+    {
+      "Indicador": "Tiempo de ejecución (s)",
+      "Cartagena antes": "Sin medición manual",
+      "Cartagena después": 0.126,
+      "Villavicencio antes": "Sin medición manual",
+      "Villavicencio después": 0.108
+    }
+  ],
+  "corte": "2026-01-06",
+  "n_ent": 11907,
+  "n_pru": 2995,
+  "tasa_ent": 8.54119425547997,
+  "tasa_pru": 18.797996661101838,
+  "val_min": 641,
+  "val_max": 1694,
+  "auc_adv": 0.577822968201805,
+  "tasa_esperada": 8.818312689963655,
+  "tasa_esperada_carga": 11.483704972181922,
+  "por_doc": {
+    "Cédula de ciudadanía": {
+      "% entrenamiento": 91.8,
+      "% prueba": 97.16,
+      "% rechazo entrenamiento": 8.76,
+      "% rechazo prueba": 18.83
+    },
+    "Cédula de extranjería": {
+      "% entrenamiento": 1.59,
+      "% prueba": 1.07,
+      "% rechazo entrenamiento": 13.76,
+      "% rechazo prueba": 21.88
+    },
+    "Registro civil": {
+      "% entrenamiento": NaN,
+      "% prueba": 0.13,
+      "% rechazo entrenamiento": NaN,
+      "% rechazo prueba": 50.0
+    },
+    "Tarjeta de identidad": {
+      "% entrenamiento": 6.61,
+      "% prueba": 1.64,
+      "% rechazo entrenamiento": 4.19,
+      "% rechazo prueba": 12.24
+    }
+  },
+  "vol7_ent": 137.38313597043756,
+  "vol7_pru": 294.3205342237062,
+  "js_objetivo": 0.128,
+  "js_max_cov": 0.611,
+  "js_max_cov_var": "volumen_7d_previo",
+  "umbral_mi": 0.0030580879039134867,
+  "n_seleccion": 26,
+  "seleccion": [
+    "tiempo_residencia_anios",
+    "log_tiempo_residencia",
+    "tiempo_cero",
+    "es_menor",
+    "es_extranjero",
+    "es_representacion",
+    "juramento",
+    "barrio_te",
+    "barrio_frecuencia",
+    "tasa_rechazo_barrio_previa_90d",
+    "mes",
+    "dia_mes",
+    "semana_anio",
+    "trimestre",
+    "es_inicio_mes",
+    "es_fin_mes",
+    "mes_sin",
+    "mes_cos",
+    "dia_semana_sin",
+    "dia_semana_cos",
+    "es_festivo",
+    "despues_de_festivo",
+    "volumen_7d_previo",
+    "volumen_30d_previo",
+    "ratio_volumen_7d_30d",
+    "tasa_rechazo_previa_30d"
+  ],
+  "descartadas": [
+    "tiempo_decimal",
+    "atipico_tiempo",
+    "tipo_documento",
+    "dia_semana"
+  ],
+  "n_supera_sondas": 13,
+  "n_lasso50": 23,
+  "top_mi": "ratio_volumen_7d_30d",
+  "top_mi_val": 0.0234,
+  "umbrales": {
+    "Regresión logística": 0.6846149542440174,
+    "Lasso logístico (L1)": 0.7003568308222152,
+    "KNN": 0.9314690295735324,
+    "SVM (RBF)": 0.6943975035256893,
+    "Árbol de decisión": 0.6882377400421077,
+    "Random Forest": 0.5553053526119252,
+    "XGBoost": 0.2698640467141213,
+    "LightGBM": 0.6213272275431075,
+    "MLP": 0.6877186708145068
+  },
+  "mejor": "LightGBM",
+  "base_ref": "Base estratificada",
+  "f1_cv": {
+    "Base estratificada": 0.5054196910757012,
+    "Base mayoritaria": 0.47947958734684937,
+    "Base tasa previa": 0.41343098510501236,
+    "KNN": 0.5089522136052763,
+    "Lasso logístico (L1)": 0.497477057430033,
+    "LightGBM": 0.5218041843001864,
+    "MLP": 0.5126987009144145,
+    "Random Forest": 0.5080544914384958,
+    "Regresión logística": 0.49710346773114233,
+    "SVM (RBF)": 0.4934853276300489,
+    "XGBoost": 0.5117488188979851,
+    "Árbol de decisión": 0.5191872938682225
+  },
+  "prueba": {
+    "Base mayoritaria": {
+      "F1-macro": 0.44812972176156257,
+      "AUC-ROC": 0.5,
+      "AUC-PR": 0.18797996661101837,
+      "MCC": 0.0,
+      "Sensibilidad rechazo": 0.0,
+      "Precisión rechazo": 0.0,
+      "Tiempo de entrenamiento (s)": 0.025227596999684465
+    },
+    "Base estratificada": {
+      "F1-macro": 0.47969396171837925,
+      "AUC-ROC": 0.4926866907777882,
+      "AUC-PR": 0.18605394922762236,
+      "MCC": -0.020331620113731918,
+      "Sensibilidad rechazo": 0.07460035523978685,
+      "Precisión rechazo": 0.16216216216216217,
+      "Tiempo de entrenamiento (s)": 0.0247002740006792
+    },
+    "Base tasa previa": {
+      "F1-macro": 0.4922007460155985,
+      "AUC-ROC": 0.5814655978311676,
+      "AUC-PR": 0.24253639665435273,
+      "MCC": 0.10591946129831468,
+      "Sensibilidad rechazo": 0.6092362344582594,
+      "Precisión rechazo": 0.2294314381270903,
+      "Tiempo de entrenamiento (s)": 0.00014117199953034287
+    },
+    "Regresión logística": {
+      "F1-macro": 0.5358657831665021,
+      "AUC-ROC": 0.6118366276759839,
+      "AUC-PR": 0.26416984015024986,
+      "MCC": 0.09147452777854762,
+      "Sensibilidad rechazo": 0.15808170515097691,
+      "Precisión rechazo": 0.2947019867549669,
+      "Tiempo de entrenamiento (s)": 0.07606313999986014
+    },
+    "Lasso logístico (L1)": {
+      "F1-macro": 0.5319147542333702,
+      "AUC-ROC": 0.6121053946199869,
+      "AUC-PR": 0.26418206203777356,
+      "MCC": 0.09083478808048406,
+      "Sensibilidad rechazo": 0.14209591474245115,
+      "Precisión rechazo": 0.3018867924528302,
+      "Tiempo de entrenamiento (s)": 0.8126936740000019
+    },
+    "KNN": {
+      "F1-macro": 0.5018547657215208,
+      "AUC-ROC": 0.5239611573338319,
+      "AUC-PR": 0.19737207982814284,
+      "MCC": 0.01887027794588486,
+      "Sensibilidad rechazo": 0.11545293072824156,
+      "Precisión rechazo": 0.20967741935483872,
+      "Tiempo de entrenamiento (s)": 0.030796317000749696
+    },
+    "SVM (RBF)": {
+      "F1-macro": 0.4765548365842789,
+      "AUC-ROC": 0.5547842707067402,
+      "AUC-PR": 0.23138713871751238,
+      "MCC": 0.041406977597624295,
+      "Sensibilidad rechazo": 0.035523978685612786,
+      "Precisión rechazo": 0.29411764705882354,
+      "Tiempo de entrenamiento (s)": 4.202318503999777
+    },
+    "Árbol de decisión": {
+      "F1-macro": 0.5182411497132309,
+      "AUC-ROC": 0.5688740856081145,
+      "AUC-PR": 0.2250735349237073,
+      "MCC": 0.04095286178239631,
+      "Sensibilidad rechazo": 0.1705150976909414,
+      "Precisión rechazo": 0.22748815165876776,
+      "Tiempo de entrenamiento (s)": 0.0742562999994334
+    },
+    "Random Forest": {
+      "F1-macro": 0.5255441123299824,
+      "AUC-ROC": 0.5973272295970833,
+      "AUC-PR": 0.2540464646304259,
+      "MCC": 0.06448415796694087,
+      "Sensibilidad rechazo": 0.3410301953818828,
+      "Precisión rechazo": 0.22829964328180738,
+      "Tiempo de entrenamiento (s)": 1.8216773639996973
+    },
+    "XGBoost": {
+      "F1-macro": 0.49451476793248944,
+      "AUC-ROC": 0.5223262801486398,
+      "AUC-PR": 0.2002132385176828,
+      "MCC": 0.006078521036853501,
+      "Sensibilidad rechazo": 0.10124333925399645,
+      "Precisión rechazo": 0.1952054794520548,
+      "Tiempo de entrenamiento (s)": 0.33519841300039843
+    },
+    "LightGBM": {
+      "F1-macro": 0.47515556701780837,
+      "AUC-ROC": 0.5334822993596335,
+      "AUC-PR": 0.20533058511117033,
+      "MCC": 0.005444639696889665,
+      "Sensibilidad rechazo": 0.04262877442273535,
+      "Precisión rechazo": 0.19834710743801653,
+      "Tiempo de entrenamiento (s)": 0.1628069129992582
+    },
+    "MLP": {
+      "F1-macro": 0.5316103452706548,
+      "AUC-ROC": 0.540902604117977,
+      "AUC-PR": 0.23047382196914834,
+      "MCC": 0.10200365636769139,
+      "Sensibilidad rechazo": 0.12966252220248667,
+      "Precisión rechazo": 0.32882882882882886,
+      "Tiempo de entrenamiento (s)": 0.44031278300008125
+    }
+  },
+  "orden_cv": [
+    "LightGBM",
+    "Árbol de decisión",
+    "MLP",
+    "XGBoost",
+    "KNN",
+    "Random Forest",
+    "Base estratificada",
+    "Lasso logístico (L1)",
+    "Regresión logística",
+    "SVM (RBF)",
+    "Base mayoritaria",
+    "Base tasa previa"
+  ],
+  "mejor_prueba": "Regresión logística",
+  "auc_cv": {
+    "Base estratificada": 0.5083587432384853,
+    "Base mayoritaria": 0.5,
+    "Base tasa previa": 0.4628583972793086,
+    "KNN": 0.5155004469520253,
+    "Lasso logístico (L1)": 0.5993690685443663,
+    "LightGBM": 0.5827493388798226,
+    "MLP": 0.582939843063952,
+    "Random Forest": 0.6177179247968836,
+    "Regresión logística": 0.5983193608268926,
+    "SVM (RBF)": 0.545659455173031,
+    "XGBoost": 0.5700408989912781,
+    "Árbol de decisión": 0.5845156190838908
+  },
+  "aucpr_cv": {
+    "Base estratificada": 0.08113299570812343,
+    "Base mayoritaria": 0.0782797494694792,
+    "Base tasa previa": 0.08017552431130384,
+    "KNN": 0.08481620076994581,
+    "Lasso logístico (L1)": 0.12486060286010499,
+    "LightGBM": 0.12003476767986294,
+    "MLP": 0.11374907190112489,
+    "Random Forest": 0.11781561605256889,
+    "Regresión logística": 0.12504996346473002,
+    "SVM (RBF)": 0.09147791989883915,
+    "XGBoost": 0.10770897413862353,
+    "Árbol de decisión": 0.10630015923746698
+  },
+  "tiempos": {
+    "Base estratificada": 0.020340579800176783,
+    "Base mayoritaria": 0.019649968000157968,
+    "Base tasa previa": 0.001325011599874415,
+    "KNN": 0.02317698879996897,
+    "Lasso logístico (L1)": 3.2490417131999494,
+    "LightGBM": 0.1065322360997925,
+    "MLP": 0.3194358513001134,
+    "Random Forest": 1.2226586296000277,
+    "Regresión logística": 0.04635277919996952,
+    "SVM (RBF)": 1.4965152010002385,
+    "XGBoost": 0.21433852749987636,
+    "Árbol de decisión": 0.04117823729984593
+  },
+  "dif_cv": 0.016384493224485208,
+  "dif_te": -0.00453839470057088,
+  "exito": false,
+  "gana_todos": [],
+  "cm": [
+    2335,
+    97,
+    539,
+    24
+  ],
+  "ablacion": [
+    {
+      "Configuración": "Con ingeniería de características (variables seleccionadas)",
+      "Variables": 26,
+      "F1-macro (prueba)": 0.475,
+      "AUC-ROC (prueba)": 0.533,
+      "_f1": 0.5218041843001864,
+      "_auc": 0.5827493388798226
+    },
+    {
+      "Configuración": "Con todas las variables candidatas",
+      "Variables": 30,
+      "F1-macro (prueba)": 0.476,
+      "AUC-ROC (prueba)": 0.529,
+      "_f1": 0.5069632381932039,
+      "_auc": 0.556014870612966
+    },
+    {
+      "Configuración": "Sin ingeniería de características",
+      "Variables": 5,
+      "F1-macro (prueba)": 0.526,
+      "AUC-ROC (prueba)": 0.55,
+      "_f1": 0.5201374758929111,
+      "_auc": 0.5984045480123897
+    }
+  ],
+  "ganancia_fe_f1": 0.0016667084072752303,
+  "ganancia_fe_auc": -0.015655209132567127,
+  "top3": [
+    "LightGBM",
+    "Árbol de decisión",
+    "MLP"
+  ],
+  "vot_cv": 0.528146104166425,
+  "vot_te": 0.5104698254726404,
+  "vot_auc_cv": 0.6070794420703736,
+  "u_vot": 0.55,
+  "robustez": [
+    {
+      "Esquema": "10 cortes, semilla 42 (principal)",
+      "Mejor modelo": "LightGBM",
+      "F1-macro del mejor": 0.522,
+      "F1-macro base estratificada": 0.505,
+      "Tau de Kendall con el orden principal": 1.0,
+      "Posición de LightGBM": 1
+    },
+    {
+      "Esquema": "10 cortes, 5 semillas",
+      "Mejor modelo": "Árbol de decisión",
+      "F1-macro del mejor": 0.517,
+      "F1-macro base estratificada": 0.492,
+      "Tau de Kendall con el orden principal": 0.51,
+      "Posición de LightGBM": 2
+    },
+    {
+      "Esquema": "5 cortes",
+      "Mejor modelo": "XGBoost",
+      "F1-macro del mejor": 0.522,
+      "F1-macro base estratificada": 0.498,
+      "Tau de Kendall con el orden principal": 0.38,
+      "Posición de LightGBM": 2
+    },
+    {
+      "Esquema": "10 cortes, ventana de 120 días",
+      "Mejor modelo": "Árbol de decisión",
+      "F1-macro del mejor": 0.52,
+      "F1-macro base estratificada": 0.504,
+      "Tau de Kendall con el orden principal": 0.51,
+      "Posición de LightGBM": 5
+    }
+  ],
+  "ablacion_grupos": [
+    {
+      "Grupo retirado": "Barrio",
+      "Variables retiradas": 3,
+      "F1-macro (validación)": 0.495,
+      "Cambio F1-macro (validación)": -0.027,
+      "AUC-ROC (validación)": 0.513,
+      "Cambio AUC-ROC (validación)": -0.07,
+      "F1-macro (prueba)": 0.455
+    },
+    {
+      "Grupo retirado": "Residencia",
+      "Variables retiradas": 3,
+      "F1-macro (validación)": 0.508,
+      "Cambio F1-macro (validación)": -0.013,
+      "AUC-ROC (validación)": 0.552,
+      "Cambio AUC-ROC (validación)": -0.031,
+      "F1-macro (prueba)": 0.473
+    },
+    {
+      "Grupo retirado": "Solicitante y documento",
+      "Variables retiradas": 4,
+      "F1-macro (validación)": 0.513,
+      "Cambio F1-macro (validación)": -0.009,
+      "AUC-ROC (validación)": 0.552,
+      "Cambio AUC-ROC (validación)": -0.03,
+      "F1-macro (prueba)": 0.497
+    },
+    {
+      "Grupo retirado": "Calendario",
+      "Variables retiradas": 12,
+      "F1-macro (validación)": 0.514,
+      "Cambio F1-macro (validación)": -0.008,
+      "AUC-ROC (validación)": 0.572,
+      "Cambio AUC-ROC (validación)": -0.01,
+      "F1-macro (prueba)": 0.467
+    },
+    {
+      "Grupo retirado": "Rezagos y ventanas",
+      "Variables retiradas": 4,
+      "F1-macro (validación)": 0.513,
+      "Cambio F1-macro (validación)": -0.009,
+      "AUC-ROC (validación)": 0.581,
+      "Cambio AUC-ROC (validación)": -0.002,
+      "F1-macro (prueba)": 0.54
+    }
+  ],
+  "dec": [
+    {
+      "Situación": "Solicitudes que la oficina recibe",
+      "Por cada 100 solicitudes": 100.0
+    },
+    {
+      "Situación": "Solicitudes que terminan rechazadas",
+      "Por cada 100 solicitudes": 18.8
+    },
+    {
+      "Situación": "Alertas de posible rechazo que emite el modelo",
+      "Por cada 100 solicitudes": 4.0
+    },
+    {
+      "Situación": "Alertas que sí terminan en rechazo",
+      "Por cada 100 solicitudes": 0.8
+    },
+    {
+      "Situación": "Rechazos que el modelo no anticipa",
+      "Por cada 100 solicitudes": 18.0
+    },
+    {
+      "Situación": "Alertas sobre solicitudes que se aprueban",
+      "Por cada 100 solicitudes": 3.2
+    }
+  ],
+  "prec_alerta": 19.834710743801654,
+  "sens_rechazo": 4.262877442273535,
+  "n_corridas": 334,
+  "semilla": 42,
+  "n_pruebas_optuna": 30,
+  "segundos_total": 545.3
+}

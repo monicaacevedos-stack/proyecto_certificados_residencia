@@ -1,0 +1,7 @@
+﻿Indicador,Cartagena antes,Cartagena después,Villavicencio antes,Villavicencio después
+Completitud (%),100.0,100.0,99.9,100.0
+Unicidad (%),99.35,100.0,99.94,100.0
+Conformidad geográfica (%),99.52,100.0,96.6,98.98
+Categorías geográficas,117,117.0,87,18.0
+Datos personales expuestos,0,0.0,68,0.0
+Tiempo de ejecución (s),Sin medición manual,0.126,Sin medición manual,0.108

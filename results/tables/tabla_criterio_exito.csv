@@ -1,0 +1,4 @@
+﻿Condición del protocolo (Tabla 3),Resultado,¿Se cumple?
+"Superar a la línea base en F1-macro por al menos 0,05 en validación","0,016 (LightGBM frente a Base estratificada)",No
+Confirmarlo en la prueba final,"-0,005",No
+Intervalos de confianza del 95 % que no se crucen y prueba estadística,Se calculan en el ACA 3 con metricas_por_particion.csv,Pendiente

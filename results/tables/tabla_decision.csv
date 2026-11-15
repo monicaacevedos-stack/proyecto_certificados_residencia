@@ -1,0 +1,7 @@
+﻿Situación,Por cada 100 solicitudes
+Solicitudes que la oficina recibe,100.0
+Solicitudes que terminan rechazadas,18.8
+Alertas de posible rechazo que emite el modelo,4.0
+Alertas que sí terminan en rechazo,0.8
+Rechazos que el modelo no anticipa,18.0
+Alertas sobre solicitudes que se aprueban,3.2

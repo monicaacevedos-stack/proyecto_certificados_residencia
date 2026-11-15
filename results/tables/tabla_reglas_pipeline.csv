@@ -1,0 +1,23 @@
+﻿Ciudad,Paso,Regla (clase),Qué hace,Aprende de los datos en fit
+Cartagena,1,RenombrarColumnas,Armoniza los nombres de la API,No
+Cartagena,2,EnmascaradorDatosPersonales,Reemplaza identificaciones y direcciones del texto libre por un marcador,No
+Cartagena,3,TiposDeDato,"Convierte fechas, números y booleanos",No
+Cartagena,4,EliminadorDuplicados,Quita filas repetidas y conserva la primera,No
+Cartagena,5,IndicadorIgualdad,Marca el código escrito como No Aplica,No
+Cartagena,6,RetirarColumnas,Retira la constante y el código que revela el resultado,No
+Cartagena,7,NormalizadorTexto,"Mayúsculas, sin acentos, espacios simples y errata conocida",No
+Cartagena,8,FiltroEstadosFinales,Conserva trámites con decisión final y crea la variable objetivo,No
+Cartagena,9,MarcadorAtipicosIQR,"Marca, sin alterar, el tiempo de residencia atípico",Sí: límites IQR
+Cartagena,10,DerivadasCartagena / DerivadasVillavicencio,Calendario e indicadores derivados,No
+Cartagena,11,Ordenar,Ordena por fecha,No
+Villavicencio,1,RenombrarColumnas,Armoniza los nombres de la API,No
+Villavicencio,2,EnmascaradorDatosPersonales,Reemplaza identificaciones y direcciones del texto libre por un marcador,No
+Villavicencio,3,TiposDeDato,"Convierte fechas, números y booleanos",No
+Villavicencio,4,RetirarColumnas,Retira el código numérico redundante del estado,No
+Villavicencio,5,EliminadorDuplicados,Quita filas repetidas y conserva la primera,No
+Villavicencio,6,NormalizadorComuna,Lleva la comuna a un formato estándar o a Sin clasificar,No
+Villavicencio,7,NormalizadorCategorias,Normaliza la finalidad y unifica equivalentes,No
+Villavicencio,8,FaltantesExplicitos,Convierte vacíos en categorías explícitas (sin imputar),No
+Villavicencio,9,RetirarColumnas,Retira el barrio por riesgo de reidentificación,No
+Villavicencio,10,DerivadasCartagena / DerivadasVillavicencio,Calendario e indicadores derivados,No
+Villavicencio,11,Ordenar,Ordena por fecha,No

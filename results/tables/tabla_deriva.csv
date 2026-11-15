@@ -1,0 +1,9 @@
+﻿Variable,Tipo,Distancia de Jensen-Shannon,KS,p,AUC adversaria
+volumen_7d_previo,Numérica,0.611,0.575,0.0,
+rechazo (variable objetivo),Categórica,0.128,,1.77e-59,
+tipo_documento,Categórica,0.115,,1.13e-28,
+barrio (20 + otros),Categórica,0.09,,6.51e-12,
+tiempo_residencia_anios,Numérica,0.067,0.056,5.54e-07,
+dia_semana,Categórica,0.026,,0.182,
+calidad_solicitante,Categórica,0.001,,0.926,
+Validación adversaria (AUC entrenamiento frente a prueba),Conjunta,,,,0.578

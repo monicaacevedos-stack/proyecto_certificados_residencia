@@ -1,0 +1,21 @@
+﻿Variable,Grupo,Fórmula,Justificación,Tipo de cálculo
+tiempo_residencia_anios,Residencia,Valor declarado (años),Variable original del dominio; base de las demás de residencia,Original
+log_tiempo_residencia,Residencia,ln(1 + tiempo),"Reduce la asimetría positiva (0,66) encontrada en el EDA",Determinista
+tiempo_cero,Residencia,1 si tiempo = 0,Falla de exactitud del catálogo (611 casos): puede asociarse con rechazo,Determinista
+tiempo_decimal,Residencia,1 si tiempo tiene decimales,Falla de consistencia del catálogo (802 casos),Determinista
+atipico_tiempo,Residencia,"1 si tiempo fuera de [Q1 - 1,5·IQR, Q3 + 1,5·IQR]",Límites aprendidos solo con el entrenamiento de cada corte,Aprendida en el Pipeline
+es_menor,Solicitante y documento,1 si tarjeta de identidad o registro civil,Único hallazgo estable del EDA: menos rechazo en los 5 semestres,Determinista
+es_extranjero,Solicitante y documento,1 si cédula de extranjería,Requisitos documentales distintos,Determinista
+es_representacion,Solicitante y documento,1 si actúa en representación de otra persona,Trámite hecho por un tercero,Determinista
+juramento,Solicitante y documento,1 si marcó el juramento,Requisito formal de la solicitud,Determinista
+tipo_documento,Solicitante y documento,One-hot (categorías con al menos 20 casos),Codificación de la categórica; lo raro se agrupa,Aprendida en el Pipeline
+barrio_te,Barrio,Codificación por objetivo con validación cruzada interna (TargetEncoder),"117 barrios: one-hot daría muchas columnas dispersas; V de Cramér del barrio = 0,125",Aprendida en el Pipeline
+barrio_frecuencia,Barrio,Proporción de solicitudes del barrio en el entrenamiento,"Reemplaza frecuencia_barrio del EDA, que usaba toda la base (fuga)",Aprendida en el Pipeline
+tasa_rechazo_barrio_previa_90d,Barrio,"(rechazos del barrio en [t-104, t-15] + 20·tasa general) / (solicitudes + 20)","Historia reciente del barrio, suavizada para barrios con pocos casos",Ventana con rezago
+"mes, dia_semana, dia_mes, semana_anio, trimestre",Calendario,Componentes de la fecha de ingreso,El año y el mes son las variables más asociadas con el rechazo en el EDA,Determinista
+"mes_sin, mes_cos, dia_semana_sin, dia_semana_cos",Calendario,sen y cos de 2π·mes/12 y de 2π·día/7,Codificación cíclica: diciembre queda cerca de enero,Determinista
+"es_inicio_mes, es_fin_mes",Calendario,1 si día ≤ 5; 1 si día ≥ 25,Picos de carga administrativa al inicio y cierre de mes,Determinista
+"es_festivo, despues_de_festivo",Calendario,Festivos de Colombia (librería holidays),Represamiento de solicitudes después de un festivo,Determinista
+"volumen_7d_previo, volumen_30d_previo",Rezagos y ventanas,Solicitudes en los 7 y 30 días anteriores (sin el día actual),"Carga de la oficina; reemplaza volumen_dia, excluida por fuga",Ventana con rezago
+ratio_volumen_7d_30d,Rezagos y ventanas,volumen_7d / (volumen_30d · 7/30),Detecta semanas de carga inusual,Ventana con rezago
+tasa_rechazo_previa_30d,Rezagos y ventanas,"Rechazos / solicitudes en [t-44, t-15]",Régimen reciente de rechazo; el desfase de 14 días evita usar decisiones aún no tomadas,Ventana con rezago

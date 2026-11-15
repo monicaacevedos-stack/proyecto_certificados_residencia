@@ -1,5 +1,7 @@
 {
   "interpretaciones": {
+    "tabla_ic_cramer": "Con 2.000 remuestreos, la V de Cramér del año queda entre 0,122 y 0,158, y la del barrio entre 0,113 y 0,147. Ningún intervalo alcanza 0,30, de modo que ambas asociaciones son reales pero pequeñas; los intervalos se solapan, así que no se puede afirmar que el año pese más que el barrio.",
+    "tabla_ic_menores": "La diferencia es negativa en los 5 semestres, pero el intervalo de confianza del 95 % excluye el cero solo en 2 de 5. Los menores son pocos (21 a 326 por semestre), así que la dirección del hallazgo se repite, pero su magnitud es incierta en cada semestre por separado.",
     "tabla_ficha_dataset": "Las dos fuentes son datos reales del mismo trámite, publicados con licencia Creative Commons Attribution | Share Alike 4.0 International. Cartagena aporta la variable objetivo porque registra rechazos; Villavicencio no los registra y por eso sirve para replicar el análisis de demanda y de calidad. Ninguna corresponde a Barbosa, así que los resultados se presentan como evidencia de trámites comparables.",
     "tabla_etl_conteos": "El ETL conserva 14.902 de 15.007 registros en Cartagena y 11.615 de 11.622 en Villavicencio, de modo que la limpieza no cambia el tamaño de las bases de manera sensible. Cartagena pierde 97 duplicados exactos y 8 trámites sin decisión final. En Villavicencio las celdas faltantes pasan a cero porque se volvieron categorías explícitas y porque se retiró el campo barrio; no hubo imputación.",
     "tabla_fallas_calidad": "La falla más frecuente en Cartagena es el código ausente (1.417 casos), que además coincide casi por completo con el estado Solicitud Rechazada. En Villavicencio pesan más la comuna fuera de formato (395 casos) y, por su gravedad, los 5 identificadores aparentes y 63 direcciones escritas en texto libre. Medir estas fallas responde al objetivo 1 y define las reglas del script del objetivo 2.",
@@ -43,10 +45,12 @@
     "tabla_correlaciones": "Correlaciones de cada variable con el resultado del trámite",
     "tabla_vif": "Factor de inflación de la varianza (VIF) de las variables candidatas",
     "tabla_asociacion": "Asociación de las variables categóricas con el resultado (chi-cuadrado y V de Cramér)",
+    "tabla_ic_cramer": "Intervalos de confianza por bootstrap de la V de Cramér de año y barrio, Cartagena",
     "tabla_robustez_cartagena": "Hallazgos de Cartagena repetidos en cada semestre",
     "tabla_robustez_villavicencio": "Hallazgos de Villavicencio repetidos en cada semestre",
     "tabla_horario_villavicencio": "Solicitudes fuera de horario y en fin de semana por mes, Villavicencio",
     "tabla_barrios_rechazo": "Tasa de rechazo (%) por año en los diez barrios con más solicitudes, Cartagena",
+    "tabla_ic_menores": "Diferencia en la tasa de rechazo entre menores y adultos por semestre, con intervalo de confianza bootstrap, Cartagena",
     "tabla_hallazgos_decisiones": "Tres hallazgos del EDA y la decisión que sugiere cada uno",
     "tabla_protocolo": "Protocolo de evaluación fijado antes de entrenar modelos",
     "tabla_kpi_complementarios": "Indicadores complementarios de calidad para evaluar la automatización",
@@ -75,7 +79,7 @@
   "fuera_patron": 395,
   "finalidades_v_crudas": 14,
   "finalidades_v_norm": 13,
-  "segundos_etl": 0.61,
+  "segundos_etl": 0.325,
   "lim_sup_c": 62.5,
   "codigo_1a1": true,
   "atip_c": 5,
@@ -113,12 +117,12 @@
     {
       "Alternativa": "D. Reemplazar por KNN (k = 5)",
       "Valores alterados": 5,
-      "Media": 17.117,
-      "Desv. estándar": 13.716,
+      "Media": 17.116,
+      "Desv. estándar": 13.715,
       "P99": 52.0,
       "Máximo": 62.0,
       "KS frente al original": 0.00034,
-      "Spearman con rechazo": 0.0217
+      "Spearman con rechazo": 0.0218
     }
   ],
   "sens": [
@@ -168,7 +172,7 @@
     "75%": 28.0,
     "max": 64.0
   },
-  "skew_tiempo": 0.6617240152934767,
+  "skew_tiempo": 0.6617240152934759,
   "pct_laboral": 59.66422729229445,
   "top_fin": {
     "LABORAL": 59.66422729229445,
@@ -176,31 +180,31 @@
     "VIVIENDA": 9.754627636676712
   },
   "mw_p": 0.008420956615343214,
-  "vif_c_max": 1.2030845285305272,
+  "vif_c_max": 1.2030845285305267,
   "vif_c_var": "volumen_dia",
-  "vif_v_max": 1.2966728373352479,
+  "vif_v_max": 1.2966728373352472,
   "vif_v_var": "fuera_horario",
   "vif_c": {
     "tiempo_residencia_anios": 1.1901651307582406,
-    "mes": 1.168850474635964,
+    "mes": 1.1688504746359638,
     "dia_semana": 1.0222050479487998,
     "dias_desde_inicio": 1.0782971468258957,
-    "volumen_dia": 1.2030845285305272,
+    "volumen_dia": 1.2030845285305267,
     "frecuencia_barrio": 1.1723023970352282,
     "es_menor": 1.0821802144375148,
-    "es_extranjero": 1.0152477226201622,
-    "es_representacion": 1.007334505621003
+    "es_extranjero": 1.015247722620162,
+    "es_representacion": 1.0073345056210028
   },
   "vif_v": {
-    "hora": 1.0958182590437027,
-    "mes": 1.1481740840671917,
-    "dia_semana": 1.1000403638297145,
-    "dias_desde_inicio": 1.0903260465947322,
-    "volumen_dia": 1.216221823689254,
+    "hora": 1.0958182590437018,
+    "mes": 1.1481740840671921,
+    "dia_semana": 1.1000403638297143,
+    "dias_desde_inicio": 1.090326046594732,
+    "volumen_dia": 1.2162218236892528,
     "es_nino": 1.096635062356664,
     "es_ppl": 1.0143536076957338,
-    "es_laboral": 1.1161176753058144,
-    "fuera_horario": 1.2966728373352479
+    "es_laboral": 1.116117675305813,
+    "fuera_horario": 1.2966728373352472
   },
   "chi": [
     {
@@ -209,7 +213,9 @@
       "Chi-cuadrado": 290.9,
       "gl": 2,
       "p": 6.75e-64,
-      "V de Cramér": 0.14
+      "V de Cramér": 0.14,
+      "p ajustado (BH)": 4.05e-63,
+      "Significativa tras BH": "Sí"
     },
     {
       "Ciudad": "Cartagena",
@@ -217,7 +223,9 @@
       "Chi-cuadrado": 231.5,
       "gl": 20,
       "p": 6.03e-38,
-      "V de Cramér": 0.125
+      "V de Cramér": 0.125,
+      "p ajustado (BH)": 1.81e-37,
+      "Significativa tras BH": "Sí"
     },
     {
       "Ciudad": "Cartagena",
@@ -225,7 +233,9 @@
       "Chi-cuadrado": 43.1,
       "gl": 3,
       "p": 2.29e-09,
-      "V de Cramér": 0.054
+      "V de Cramér": 0.054,
+      "p ajustado (BH)": 4.58e-09,
+      "Significativa tras BH": "Sí"
     },
     {
       "Ciudad": "Cartagena",
@@ -233,7 +243,9 @@
       "Chi-cuadrado": 12.5,
       "gl": 6,
       "p": 0.0515,
-      "V de Cramér": 0.029
+      "V de Cramér": 0.029,
+      "p ajustado (BH)": 0.0772,
+      "Significativa tras BH": "No"
     },
     {
       "Ciudad": "Cartagena",
@@ -241,7 +253,9 @@
       "Chi-cuadrado": 2.1,
       "gl": 1,
       "p": 0.146,
-      "V de Cramér": 0.012
+      "V de Cramér": 0.012,
+      "p ajustado (BH)": 0.175,
+      "Significativa tras BH": "No"
     },
     {
       "Ciudad": "Cartagena",
@@ -249,7 +263,9 @@
       "Chi-cuadrado": 0.0,
       "gl": 1,
       "p": 0.965,
-      "V de Cramér": 0.0
+      "V de Cramér": 0.0,
+      "p ajustado (BH)": 0.965,
+      "Significativa tras BH": "No"
     },
     {
       "Ciudad": "Villavicencio",
@@ -257,7 +273,9 @@
       "Chi-cuadrado": 117.6,
       "gl": 14,
       "p": 1.84e-18,
-      "V de Cramér": 0.101
+      "V de Cramér": 0.101,
+      "p ajustado (BH)": 9.2e-18,
+      "Significativa tras BH": "Sí"
     },
     {
       "Ciudad": "Villavicencio",
@@ -265,7 +283,9 @@
       "Chi-cuadrado": 72.5,
       "gl": 17,
       "p": 8.05e-09,
-      "V de Cramér": 0.079
+      "V de Cramér": 0.079,
+      "p ajustado (BH)": 2.01e-08,
+      "Significativa tras BH": "Sí"
     },
     {
       "Ciudad": "Villavicencio",
@@ -273,7 +293,9 @@
       "Chi-cuadrado": 52.8,
       "gl": 12,
       "p": 4.49e-07,
-      "V de Cramér": 0.067
+      "V de Cramér": 0.067,
+      "p ajustado (BH)": 7.48e-07,
+      "Significativa tras BH": "Sí"
     },
     {
       "Ciudad": "Villavicencio",
@@ -281,7 +303,9 @@
       "Chi-cuadrado": 20.8,
       "gl": 2,
       "p": 3.04e-05,
-      "V de Cramér": 0.042
+      "V de Cramér": 0.042,
+      "p ajustado (BH)": 3.04e-05,
+      "Significativa tras BH": "Sí"
     },
     {
       "Ciudad": "Villavicencio",
@@ -289,7 +313,9 @@
       "Chi-cuadrado": 18.6,
       "gl": 1,
       "p": 1.59e-05,
-      "V de Cramér": 0.04
+      "V de Cramér": 0.04,
+      "p ajustado (BH)": 1.99e-05,
+      "Significativa tras BH": "Sí"
     }
   ],
   "corr": [
@@ -434,8 +460,38 @@
     "hora ~ fuera_horario": 0.2198763060526699,
     "volumen_dia ~ es_laboral": -0.1998194087858749
   },
+  "ic_cramer": [
+    {
+      "Variable": "anio",
+      "V de Cramér": 0.14,
+      "IC 95 % inferior": 0.122,
+      "IC 95 % superior": 0.158,
+      "Remuestreos": 2000
+    },
+    {
+      "Variable": "barrio (20 + otros)",
+      "V de Cramér": 0.125,
+      "IC 95 % inferior": 0.113,
+      "IC 95 % superior": 0.147,
+      "Remuestreos": 2000
+    }
+  ],
+  "chi_bh_no_signif": [
+    {
+      "Ciudad": "Cartagena",
+      "Variable": "dia_semana"
+    },
+    {
+      "Ciudad": "Cartagena",
+      "Variable": "es_representacion"
+    },
+    {
+      "Ciudad": "Cartagena",
+      "Variable": "atipico_tiempo"
+    }
+  ],
   "fuerza_est_c": 0.840607068159434,
-  "fuerza_tend_c": 0.35956110217134507,
+  "fuerza_tend_c": 0.3595611021713445,
   "fuerza_est_v": 0.4794786659084148,
   "fuerza_tend_v": 0.48965537837662076,
   "pico_c": "2026-02",
@@ -756,6 +812,63 @@
     "Aprobado Parcial": 2,
     "Presentado": 1
   },
-  "segundos_total": 11.87,
+  "ic_menores": [
+    {
+      "Semestre": "2024-S1",
+      "Menores": 21,
+      "Adultos": 3701,
+      "% rechazo menores": 4.76,
+      "% rechazo adultos": 12.97,
+      "Diferencia (pp)": -8.21,
+      "IC 95 % inferior": -13.78,
+      "IC 95 % superior": 1.97,
+      "IC excluye cero": "No"
+    },
+    {
+      "Semestre": "2024-S2",
+      "Menores": 326,
+      "Adultos": 2177,
+      "% rechazo menores": 5.52,
+      "% rechazo adultos": 6.06,
+      "Diferencia (pp)": -0.54,
+      "IC 95 % inferior": -3.12,
+      "IC 95 % superior": 2.23,
+      "IC excluye cero": "No"
+    },
+    {
+      "Semestre": "2025-S1",
+      "Menores": 132,
+      "Adultos": 2761,
+      "% rechazo menores": 2.27,
+      "% rechazo adultos": 7.32,
+      "Diferencia (pp)": -5.04,
+      "IC 95 % inferior": -7.42,
+      "IC 95 % superior": -2.05,
+      "IC excluye cero": "Sí"
+    },
+    {
+      "Semestre": "2025-S2",
+      "Menores": 305,
+      "Adultos": 2430,
+      "% rechazo menores": 3.61,
+      "% rechazo adultos": 6.87,
+      "Diferencia (pp)": -3.27,
+      "IC 95 % inferior": -5.48,
+      "IC 95 % superior": -0.77,
+      "IC excluye cero": "Sí"
+    },
+    {
+      "Semestre": "2026-S1",
+      "Menores": 56,
+      "Adultos": 2993,
+      "% rechazo menores": 14.29,
+      "% rechazo adultos": 18.64,
+      "Diferencia (pp)": -4.36,
+      "IC 95 % inferior": -12.99,
+      "IC 95 % superior": 5.67,
+      "IC excluye cero": "No"
+    }
+  ],
+  "segundos_total": 22.68,
   "semilla": 42
 }

@@ -1,0 +1,5 @@
+﻿Esquema,Mejor modelo,F1-macro del mejor,F1-macro base estratificada,Tau de Kendall con el orden principal,Posición de LightGBM
+"10 cortes, semilla 42 (principal)",LightGBM,0.522,0.505,1.0,1
+"10 cortes, 5 semillas",Árbol de decisión,0.517,0.492,0.51,2
+5 cortes,XGBoost,0.522,0.498,0.38,2
+"10 cortes, ventana de 120 días",Árbol de decisión,0.52,0.504,0.51,5
